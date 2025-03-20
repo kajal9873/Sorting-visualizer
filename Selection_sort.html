@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selection Sort Visualization</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #111;
+            color: #ff9900;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin-top: 60px;
+            text-align: left;
+            margin-left: 1px;
+        }
+        canvas {
+            background: #222;
+            display: block;
+            margin: auto;
+        }
+        button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 20px;
+            background: #ff9900;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ffcc00;
+        }
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .buttons button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: orange;
+            color: black;
+            border-radius: 5px;
+        }
+        .code-container {
+            display: none;
+            background-color: #1e1e1e;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: left;
+            width: 60%;
+            margin: auto;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }       
+    </style>   
+</head>
+<body>
+    <h1>Selection Sort Visualization</h1>
+    <canvas id="SelectionSortCanvas"></canvas>
+    <br>
+    <button onclick="startSelectionSort()">Visualize Selection Sort</button>
+
+    <script>
+        const canvas = document.getElementById("SelectionSortCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth * 0.9;
+        canvas.height = 500;
+
+        let array = [];
+        const numBars = 50;
+        const barWidth = canvas.width / numBars;
+
+        function generateArray() {
+            array = [];
+            for (let i = 0; i < numBars; i++) {
+                array.push(Math.floor(Math.random() * canvas.height * 0.8) + 10);
+            }
+            drawArray();
+        }
+
+        function drawArray(highlightIndices = []) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < array.length; i++) {
+                ctx.fillStyle = highlightIndices.includes(i) ? "red" : "orange"; // Highlighting selection
+                ctx.fillRect(i * barWidth, canvas.height - array[i], barWidth - 2, array[i]);
+            }
+        }
+
+        async function selectionSort() {
+            let n = array.length;
+            for (let i = 0; i < n - 1; i++) {
+                let minIndex = i;
+                for (let j = i + 1; j < n; j++) {
+                    if (array[j] < array[minIndex]) {
+                        minIndex = j;
+                    }
+                    drawArray([minIndex, j]); // Highlight comparison
+                    await sleep(50);
+                }
+                if (minIndex !== i) {
+                    [array[i], array[minIndex]] = [array[minIndex], array[i]]; // Swap
+                    drawArray([i, minIndex]); // Highlight swap
+                    await sleep(100);
+                }
+            }
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function startSelectionSort() {
+            generateArray();
+            await sleep(1000); // Delay before sorting starts
+            await selectionSort();
+        }
+
+        generateArray();
+    </script>
+</body>
+</html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selection Sort - Sorting Algorithm Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </header>
+<div class="selection-sort-info">
+    <div class="content-container">
+        <div class="description">
+            <h2>DESCRIPTION</h2>
+            <p>
+                Selection Sort is a simple and efficient **comparison-based sorting algorithm** that divides the array into a sorted and an unsorted region. It repeatedly selects the smallest (or largest) element from the unsorted part and swaps it with the first unsorted element, expanding the sorted portion with each iteration.
+            </p>
+            <p>
+                The algorithm works by scanning the array for the smallest element and swapping it with the first element. Then, it finds the next smallest element and swaps it with the second element, and so on, until the entire list is sorted.
+            </p>
+            <p>
+                Unlike Bubble Sort, Selection Sort makes fewer swaps, making it more efficient in terms of write operations. However, it still has a **time complexity of O(n²)** in both the worst and average cases, making it inefficient for large datasets.
+            </p>
+            <p>
+                One advantage of Selection Sort is that it performs well on small datasets and requires minimal swaps, making it useful when memory write operations are costly.
+            </p>
+            <p>
+                Selection Sort is an **in-place sorting algorithm**, meaning it does not require additional memory. However, it is **not a stable sort**, meaning equal elements may not maintain their original relative order after sorting.
+            </p>
+        </div>                       
+        <div class="complexity">
+            <h2>COMPLEXITY</h2>
+            <table>
+                <tr>
+                    <td><strong>Average Complexity</strong></td>
+                    <td>O(n²)</td>
+                </tr>
+                <tr>
+                    <td><strong>Best Case</strong></td>
+                    <td>O(n²)</td>
+                </tr>
+                <tr>
+                    <td><strong>Worst Case</strong></td>
+                    <td>O(n²)</td>
+                </tr>
+                <tr>
+                    <td><strong>Space Complexity</strong></td>
+                    <td>O(1)</td>
+                </tr>
+            </table>
+        </div>                              
+    </div>
+</div>        
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Selection Sort Visualization</title>
+                <style>
+                    body {
+                        background-color: #333;
+                        color: white;
+                        font-family: Arial, sans-serif;
+                        text-align: center;
+                    }
+                    select {
+                        padding: 10px;
+                        font-size: 16px;
+                        background-color: orange;
+                        border: none;
+                        color: black;
+                    }
+                    pre {
+                        background-color: #333;
+                        padding: 15px;
+                        text-align: left;
+                        display: none; /* Initially hidden */
+                    }    
+                </style>
+            </head>
+            <body>           
+                <h2>Selection SORT IMPLEMENTATION</h2>
+                <label for="language">Choose a language:</label>
+                <select id="language">
+                    <option value="c">C</option>
+                    <option value="c++">C++</option>
+                    <option value="java">java</option>
+                    <option value="python">Python</option>
+                    <option value="javascript">javascript</option>
+                </select>
+            
+                <pre id="code-block">
+                    <code id="code"></code>
+                </pre>
+            
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        var codeBlock = document.getElementById("code-block");
+                        var codeContent = document.getElementById("code");
+                        var languageDropdown = document.getElementById("language");
+                
+                        var codes = {
+                            "c":`#include <stdio.h>
+
+// Function to perform Selection Sort
+void selectionSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int minIndex = i;
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex])
+                minIndex = j;
+        }
+        // Swap the found minimum element with the first element
+        int temp = arr[i];
+        arr[i] = arr[minIndex];
+        arr[minIndex] = temp;
+    }
+}
+
+// Function to print the array
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
+
+int main() {
+    int arr[] = {64, 25, 12, 22, 11};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    selectionSort(arr, n);
+    printf("Sorted array: \n");
+    printArray(arr, n);
+    return 0;
+}`,          
+                            "c++":`#include <iostream>
+using namespace std;
+
+// Function to perform Selection Sort
+void selectionSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int minIndex = i;
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex])
+                minIndex = j;
+        }
+        swap(arr[i], arr[minIndex]);
+    }
+}
+
+// Function to print the array
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+}
+
+int main() {
+    int arr[] = {64, 25, 12, 22, 11};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    selectionSort(arr, n);
+    cout << "Sorted array: \n";
+    printArray(arr, n);
+    return 0;
+}`,           
+                            "java":`public class SelectionSort {
+    // Function to perform Selection Sort
+    static void selectionSort(int arr[]) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex])
+                    minIndex = j;
+            }
+            int temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+    }
+
+    // Function to print the array
+    static void printArray(int arr[]) {
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String args[]) {
+        int arr[] = {64, 25, 12, 22, 11};
+
+        selectionSort(arr);
+        System.out.println("Sorted array:");
+        printArray(arr);
+    }
+}`,
+                
+                            "python": `def selection_sort(arr):
+    n = len(arr)
+    for i in range(n - 1):
+        min_index = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_index]:
+                min_index = j
+        arr[i], arr[min_index] = arr[min_index], arr[i]
+
+# Example usage
+arr = [64, 25, 12, 22, 11]
+selection_sort(arr)
+print("Sorted array:", arr)
+`,   
+                            "javascript":`function selectionSort(arr) {
+    let n = arr.length;
+    for (let i = 0; i < n - 1; i++) {
+        let minIndex = i;
+        for (let j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex])
+                minIndex = j;
+        }
+        [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]]; // Swap
+    }
+}
+
+// Example usage
+let arr = [64, 25, 12, 22, 11];
+selectionSort(arr);
+console.log("Sorted array:", arr);
+`
+};           
+                        function updateCode() {
+                            var selectedLang = languageDropdown.value;
+                            codeContent.textContent = codes[selectedLang] || "Code not available.";
+                            codeBlock.style.display = "block"; // Show the code block
+                        }
+                
+                        // Update code on language change
+                        languageDropdown.addEventListener("change", updateCode);
+                
+                        // Show default language code on page load
+                        updateCode();
+                    });
+                </script>
+                <div class="sorting-container">
+                    <img src="https://www.programiz.com/sites/tutorial2program/files/Selection-sort-0.png" alt="Selection Sort Visualization">
+                </div>
+</body>
+</html>
+

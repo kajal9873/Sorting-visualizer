@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radix Sort Visualization</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #111;
+            color: #ff9900;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin-top: 60px;
+            text-align: left;
+            margin-left: 1px;
+        }
+        canvas {
+            background: #222;
+            display: block;
+            margin: auto;
+        }
+        button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 20px;
+            background: #ff9900;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ffcc00;
+        }
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .buttons button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: orange;
+            color: black;
+            border-radius: 5px;
+        }
+        .code-container {
+            display: none;
+            background-color: #1e1e1e;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: left;
+            width: 60%;
+            margin: auto;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }       
+    </style>   
+</head>
+<body>
+    <h1>Radix Sort Visualization</h1>
+    <canvas id="RadixCanvas"></canvas>
+    <br>
+    <button onclick="startRadixSort()">Visualize Radix Sort</button>
+
+    <script>
+    const canvas = document.getElementById("RadixCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth * 0.9;
+    canvas.height = 500;
+
+    let array = [];
+    const numBars = 50;  // Any size works for Radix Sort
+    const barWidth = canvas.width / numBars;
+
+    function generateArray() {
+        array = [];
+        for (let i = 0; i < numBars; i++) {
+            array.push(Math.floor(Math.random() * canvas.height * 0.8) + 10);
+        }
+        drawArray();
+    }
+
+    function drawArray(highlightIndices = []) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < array.length; i++){
+            ctx.fillStyle = highlightIndices.includes(i) ? "red" : "orange";
+            ctx.fillRect(i * barWidth, canvas.height - array[i], barWidth - 2, array[i]);
+        }
+    }
+
+    async function radixSort() {
+        let maxNum = Math.max(...array);
+        let exp = 1;
+
+        while (Math.floor(maxNum / exp) > 0) {
+            await countingSort(exp);
+            exp *= 10;
+        }
+    }
+
+    async function countingSort(exp) {
+        let output = new Array(numBars).fill(0);
+        let count = new Array(10).fill(0);
+
+        // Count occurrences
+        for (let i = 0; i < numBars; i++) {
+            let digit = Math.floor(array[i] / exp) % 10;
+            count[digit]++;
+        }
+
+        // Cumulative count
+        for (let i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+
+        // Build output array
+        for (let i = numBars - 1; i >= 0; i--) {
+            let digit = Math.floor(array[i] / exp) % 10;
+            output[count[digit] - 1] = array[i];
+            count[digit]--;
+        }
+
+        // Copy back and visualize
+        for (let i = 0; i < numBars; i++) {
+            array[i] = output[i];
+            drawArray([i]);
+            await sleep(50);
+        }
+    }
+
+    async function startRadixSort() {
+        generateArray();
+        await sleep(1000);
+        await radixSort();
+        drawArray();
+    }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    generateArray();
+    </script>
+</body>
+</html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radix Sort - Sorting Algorithm Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </header>
+<div class="Radix-sort-info">
+    <div class="content-container">
+        <div class="description">
+            <h2>DESCRIPTION</h2>
+            <p>
+                Radix Sort is a <strong>non-comparative sorting algorithm</strong> that sorts numbers by processing individual digits, from the least significant to the most significant, using a stable sub-sorting method like counting sort.
+            </p>
+            <p>
+                The algorithm works by distributing numbers into buckets based on each digit’s value at a specific place (units, tens, hundreds, etc.), then collecting them back in order. This process repeats for each digit until the entire array is sorted.
+            </p>
+            <p>
+                Radix Sort has a <strong>time complexity of O(nk)</strong>, where <em>n</em> is the number of elements and <em>k</em> is the number of digits in the maximum number. This makes it highly efficient for large datasets with fixed-length numbers.
+            </p>
+            <p>
+                One key advantage of Radix Sort is that it performs faster than comparison-based algorithms like QuickSort and MergeSort for certain types of data, such as integers and fixed-length strings, especially when the range of values is limited.
+            </p>
+            <p>
+                Radix Sort is widely used in applications such as digital signal processing, data distribution, and integer sorting in computer graphics and computational geometry due to its predictable and stable sorting behavior.
+            </p>
+        </div>                                                                 
+        <div class="complexity">
+            <h2>COMPLEXITY</h2>
+            <table>
+                <tr>
+                    <td><strong>Average Complexity</strong></td>
+                    <td>O(nk)</td>
+                </tr>
+                <tr>
+                    <td><strong>Best Case</strong></td>
+                    <td>O(nk)</td>
+                </tr>
+                <tr>
+                    <td><strong>Worst Case</strong></td>
+                    <td>O(nk)</td>
+                </tr>
+                <tr>
+                    <td><strong>Space Complexity</strong></td>
+                    <td>O(n + k)</td>
+                </tr>
+            </table>
+        </div>                                                                   
+    </div>
+</div>        
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Radix Sort Visualization</title>
+                <style>
+                    body {
+                        background-color: #333;
+                        color: white;
+                        font-family: Arial, sans-serif;
+                        text-align: center;
+                    }
+                    select {
+                        padding: 10px;
+                        font-size: 16px;
+                        background-color: orange;
+                        border: none;
+                        color: black;
+                    }
+                    pre {
+                        background-color: #333;
+                        padding: 15px;
+                        text-align: left;
+                        display: none; /* Initially hidden */
+                    }    
+                </style>
+            </head>
+            <body>           
+                <h2>Radix SORT IMPLEMENTATION</h2>
+                <label for="language">Choose a language:</label>
+                <select id="language">
+                    <option value="c">C</option>
+                    <option value="c++">C++</option>
+                    <option value="java">java</option>
+                    <option value="python">Python</option>
+                    <option value="javascript">javascript</option>
+                </select>
+            
+                <pre id="code-block">
+                    <code id="code"></code>
+                </pre>
+            
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        var codeBlock = document.getElementById("code-block");
+                        var codeContent = document.getElementById("code");
+                        var languageDropdown = document.getElementById("language");
+                
+                        var codes = {
+                            "c":`#include <stdio.h>
+
+int getMax(int arr[], int n) {
+    int max = arr[0];
+    for (int i = 1; i < n; i++)
+        if (arr[i] > max)
+            max = arr[i];
+    return max;
+}
+
+void countingSort(int arr[], int n, int exp) {
+    int output[n], count[10] = {0};
+
+    for (int i = 0; i < n; i++)
+        count[(arr[i] / exp) % 10]++;
+
+    for (int i = 1; i < 10; i++)
+        count[i] += count[i - 1];
+
+    for (int i = n - 1; i >= 0; i--) {
+        output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+        count[(arr[i] / exp) % 10]--;
+    }
+
+    for (int i = 0; i < n; i++)
+        arr[i] = output[i];
+}
+
+void radixSort(int arr[], int n) {
+    int max = getMax(arr, n);
+    for (int exp = 1; max / exp > 0; exp *= 10)
+        countingSort(arr, n, exp);
+}
+
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
+
+int main() {
+    int arr[] = {170, 45, 75, 90, 802, 24, 2, 66};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    radixSort(arr, n);
+    printArray(arr, n);
+    return 0;
+}`,          
+                            "c++":`#include <iostream>
+using namespace std;
+
+int getMax(int arr[], int n) {
+    int max = arr[0];
+    for (int i = 1; i < n; i++)
+        if (arr[i] > max)
+            max = arr[i];
+    return max;
+}
+
+void countingSort(int arr[], int n, int exp) {
+    int output[n], count[10] = {0};
+
+    for (int i = 0; i < n; i++)
+        count[(arr[i] / exp) % 10]++;
+
+    for (int i = 1; i < 10; i++)
+        count[i] += count[i - 1];
+
+    for (int i = n - 1; i >= 0; i--) {
+        output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+        count[(arr[i] / exp) % 10]--;
+    }
+
+    for (int i = 0; i < n; i++)
+        arr[i] = output[i];
+}
+
+void radixSort(int arr[], int n) {
+    int max = getMax(arr, n);
+    for (int exp = 1; max / exp > 0; exp *= 10)
+        countingSort(arr, n, exp);
+}
+
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+}
+
+int main() {
+    int arr[] = {170, 45, 75, 90, 802, 24, 2, 66};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    radixSort(arr, n);
+    printArray(arr, n);
+    return 0;
+}`,           
+                            "java":`import java.util.Arrays;
+
+class RadixSort {
+    static int getMax(int arr[]) {
+        int max = arr[0];
+        for (int i = 1; i < arr.length; i++)
+            if (arr[i] > max)
+                max = arr[i];
+        return max;
+    }
+
+    static void countingSort(int arr[], int exp) {
+        int output[] = new int[arr.length];
+        int count[] = new int[10];
+
+        for (int i = 0; i < arr.length; i++)
+            count[(arr[i] / exp) % 10]++;
+
+        for (int i = 1; i < 10; i++)
+            count[i] += count[i - 1];
+
+        for (int i = arr.length - 1; i >= 0; i--) {
+            output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+            count[(arr[i] / exp) % 10]--;
+        }
+
+        for (int i = 0; i < arr.length; i++)
+            arr[i] = output[i];
+    }
+
+    static void radixSort(int arr[]) {
+        int max = getMax(arr);
+        for (int exp = 1; max / exp > 0; exp *= 10)
+            countingSort(arr, exp);
+    }
+
+    public static void main(String[] args) {
+        int arr[] = {170, 45, 75, 90, 802, 24, 2, 66};
+        radixSort(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+}`,
+                
+                            "python":`def getMax(arr):
+    return max(arr)
+
+def countingSort(arr, exp):
+    n = len(arr)
+    output = [0] * n
+    count = [0] * 10
+
+    for i in range(n):
+        count[(arr[i] // exp) % 10] += 1
+
+    for i in range(1, 10):
+        count[i] += count[i - 1]
+
+    for i in range(n - 1, -1, -1):
+        output[count[(arr[i] // exp) % 10] - 1] = arr[i]
+        count[(arr[i] // exp) % 10] -= 1
+
+    for i in range(n):
+        arr[i] = output[i]
+
+def radixSort(arr):
+    max_num = getMax(arr)
+    exp = 1
+    while max_num // exp > 0:
+        countingSort(arr, exp)
+        exp *= 10
+
+arr = [170, 45, 75, 90, 802, 24, 2, 66]
+radixSort(arr)
+print(arr)
+`,   
+                            "javascript":`function getMax(arr) {
+    return Math.max(...arr);
+}
+
+function countingSort(arr, exp) {
+    let n = arr.length;
+    let output = new Array(n).fill(0);
+    let count = new Array(10).fill(0);
+
+    for (let i = 0; i < n; i++)
+        count[Math.floor(arr[i] / exp) % 10]++;
+
+    for (let i = 1; i < 10; i++)
+        count[i] += count[i - 1];
+
+    for (let i = n - 1; i >= 0; i--) {
+        output[count[Math.floor(arr[i] / exp) % 10] - 1] = arr[i];
+        count[Math.floor(arr[i] / exp) % 10]--;
+    }
+
+    for (let i = 0; i < n; i++)
+        arr[i] = output[i];
+}
+
+function radixSort(arr) {
+    let max = getMax(arr);
+    for (let exp = 1; Math.floor(max / exp) > 0; exp *= 10)
+        countingSort(arr, exp);
+}
+
+let arr = [170, 45, 75, 90, 802, 24, 2, 66];
+radixSort(arr);
+console.log(arr);
+`
+};           
+                        function updateCode() {
+                            var selectedLang = languageDropdown.value;
+                            codeContent.textContent = codes[selectedLang] || "Code not available.";
+                            codeBlock.style.display = "block"; // Show the code block
+                        }
+                
+                        // Update code on language change
+                        languageDropdown.addEventListener("change", updateCode);
+                
+                        // Show default language code on page load
+                        updateCode();
+                    });
+                </script>
+                <div class="sorting-container">
+                    <img src="https://www.programiz.com/sites/tutorial2program/files/Radix-sort-0_0.png" alt="Radix Sort Visualization">
+                </div>
+</body>
+</html>
+

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heap Sort Visualization</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #111;
+            color: #ff9900;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin-top: 60px;
+            text-align: left;
+            margin-left: 1px;
+        }
+        canvas {
+            background: #222;
+            display: block;
+            margin: auto;
+        }
+        button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 20px;
+            background: #ff9900;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ffcc00;
+        }
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .buttons button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: orange;
+            color: black;
+            border-radius: 5px;
+        }
+        .code-container {
+            display: none;
+            background-color: #1e1e1e;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: left;
+            width: 60%;
+            margin: auto;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }       
+    </style>
+</head>
+<body>
+    <h1>Heap Sort Visualization</h1>
+    <canvas id="HeapSortCanvas"></canvas>
+    <br>
+    <button onclick="startHeapSort()">Visualize Heap Sort</button>
+
+    <script>
+        const canvas = document.getElementById("HeapSortCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth * 0.9;
+        canvas.height = 500;
+
+        let array = [];
+        const numBars = 50;
+        const barWidth = canvas.width / numBars;
+
+        function generateArray() {
+            array = [];
+            for (let i = 0; i < numBars; i++) {
+                array.push(Math.floor(Math.random() * canvas.height * 0.8) + 10);
+            }
+            drawArray();
+        }
+
+        function drawArray(highlightIndices = []) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < array.length; i++) {
+                ctx.fillStyle = highlightIndices.includes(i) ? "red" : "orange";
+                ctx.fillRect(i * barWidth, canvas.height - array[i], barWidth - 2, array[i]);
+            }
+        }
+
+        async function heapSort() {
+            let n = array.length;
+
+            // Step 1: Build Max Heap
+            for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+                await heapify(n, i);
+            }
+
+            // Step 2: Extract elements from heap one by one
+            for (let i = n - 1; i > 0; i--) {
+                [array[0], array[i]] = [array[i], array[0]]; // Swap max element to end
+                drawArray([0, i]);
+                await sleep(200);
+                await heapify(i, 0);
+            }
+        }
+
+        async function heapify(n, i) {
+            let largest = i;
+            let left = 2 * i + 1;
+            let right = 2 * i + 2;
+
+            if (left < n && array[left] > array[largest]) largest = left;
+            if (right < n && array[right] > array[largest]) largest = right;
+
+            if (largest !== i) {
+                [array[i], array[largest]] = [array[largest], array[i]];
+                drawArray([i, largest]);
+                await sleep(200);
+                await heapify(n, largest);
+            }
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function startHeapSort() {
+            generateArray();
+            setTimeout(() => heapSort(), 1000);
+        }
+
+        generateArray();
+    </script>
+</body>
+</html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heap Sort - Sorting Algorithm Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </header>
+<div class="merge-sort-info">
+    <div class="content-container">
+        <div class="description">
+            <h2>DESCRIPTION</h2>
+            <p>
+                Heap Sort is a comparison-based sorting algorithm that uses a **binary heap data structure** to sort elements efficiently. It follows a two-step process: first, it builds a **max heap** from the given data, and then it repeatedly extracts the largest element (the root) and reconstructs the heap.
+            </p>
+            <p>
+                The algorithm starts by organizing the elements into a heap, ensuring that each parent node is greater than its children. This process is known as **heapification**.
+            </p>
+            <p>
+                After building the heap, Heap Sort removes the largest element (the root) and places it at the end of the array. The heap is then adjusted to maintain the heap property, and this step is repeated until all elements are sorted.
+            </p>
+            <p>
+                This approach is based on the **heap data structure**, which allows for efficient **selection of the maximum element**. Unlike Merge Sort and Quick Sort, Heap Sort is **in-place**, meaning it does not require extra memory for sorting.
+            </p>
+            <p>
+                Heap Sort has a predictable **O(n log n)** time complexity in all cases, making it a reliable sorting algorithm for large datasets. However, it is not a **stable sort**, meaning it does not preserve the relative order of duplicate elements.
+            </p>
+        </div>            
+        <div class="complexity">
+            <h2>COMPLEXITY</h2>
+            <table>
+                <tr>
+                    <td><strong>Average Complexity</strong></td>
+                    <td>O(n × log n)</td>
+                </tr>
+                <tr>
+                    <td><strong>Best Case</strong></td>
+                    <td>O(n × log n)</td>
+                </tr>
+                <tr>
+                    <td><strong>Worst Case</strong></td>
+                    <td>O(n × log n)</td>
+                </tr>
+                <tr>
+                    <td><strong>Space Complexity</strong></td>
+                    <td>O(1)</td>
+                </tr>
+            </table>
+        </div>                
+    </div>
+</div>        
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Heap Sort Visualization</title>
+                <style>
+                    body {
+                        background-color: #333;
+                        color: white;
+                        font-family: Arial, sans-serif;
+                        text-align: center;
+                    }
+                    select {
+                        padding: 10px;
+                        font-size: 16px;
+                        background-color: orange;
+                        border: none;
+                        color: black;
+                    }
+                    pre {
+                        background-color: #333;
+                        padding: 15px;
+                        text-align: left;
+                        display: none; /* Initially hidden */
+                    }    
+                </style>
+            </head>
+            <body>           
+                <h2>HEAP SORT IMPLEMENTATION</h2>
+                <label for="language">Choose a language:</label>
+                <select id="language">
+                    <option value="c">C</option>
+                    <option value="c++">C++</option>
+                    <option value="java">java</option>
+                    <option value="python">Python</option>
+                    <option value="javascript">javascript</option>
+                </select>
+            
+                <pre id="code-block">
+                    <code id="code"></code>
+                </pre>
+            
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        var codeBlock = document.getElementById("code-block");
+                        var codeContent = document.getElementById("code");
+                        var languageDropdown = document.getElementById("language");
+                
+                        var codes = {
+                            "c":`#include <stdio.h>
+
+// Function to heapify a subtree rooted at index i
+void heapify(int arr[], int n, int i) {
+    int largest = i; 
+    int left = 2 * i + 1; 
+    int right = 2 * i + 2; 
+
+    if (left < n && arr[left] > arr[largest])
+        largest = left;
+
+    if (right < n && arr[right] > arr[largest])
+        largest = right;
+
+    if (largest != i) {
+        int temp = arr[i];
+        arr[i] = arr[largest];
+        arr[largest] = temp;
+
+        heapify(arr, n, largest);
+    }
+}
+
+void heapSort(int arr[], int n) {
+    for (int i = n / 2 - 1; i >= 0; i--)
+        heapify(arr, n, i);
+
+    for (int i = n - 1; i > 0; i--) {
+        int temp = arr[0];
+        arr[0] = arr[i];
+        arr[i] = temp;
+
+        heapify(arr, i, 0);
+    }
+}
+
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
+
+int main() {
+    int arr[] = {12, 11, 13, 5, 6, 7};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    heapSort(arr, n);
+
+    printf("Sorted array: \n");
+    printArray(arr, n);
+    return 0;
+}`,          
+                            "c++":`#include <iostream>
+using namespace std;
+
+void heapify(int arr[], int n, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && arr[left] > arr[largest])
+        largest = left;
+
+    if (right < n && arr[right] > arr[largest])
+        largest = right;
+
+    if (largest != i) {
+        swap(arr[i], arr[largest]);
+        heapify(arr, n, largest);
+    }
+}
+
+void heapSort(int arr[], int n) {
+    for (int i = n / 2 - 1; i >= 0; i--)
+        heapify(arr, n, i);
+
+    for (int i = n - 1; i > 0; i--) {
+        swap(arr[0], arr[i]);
+        heapify(arr, i, 0);
+    }
+}
+
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+}
+
+int main() {
+    int arr[] = {12, 11, 13, 5, 6, 7};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    heapSort(arr, n);
+
+    cout << "Sorted array: \n";
+    printArray(arr, n);
+    return 0;
+}`,           
+                            "java":`public class HeapSort {
+    public void heapify(int arr[], int n, int i) {
+        int largest = i; 
+        int left = 2 * i + 1; 
+        int right = 2 * i + 2; 
+
+        if (left < n && arr[left] > arr[largest])
+            largest = left;
+
+        if (right < n && arr[right] > arr[largest])
+            largest = right;
+
+        if (largest != i) {
+            int temp = arr[i];
+            arr[i] = arr[largest];
+            arr[largest] = temp;
+
+            heapify(arr, n, largest);
+        }
+    }
+
+    public void heapSort(int arr[]) {
+        int n = arr.length;
+
+        for (int i = n / 2 - 1; i >= 0; i--)
+            heapify(arr, n, i);
+
+        for (int i = n - 1; i > 0; i--) {
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+
+            heapify(arr, i, 0);
+        }
+    }
+
+    public void printArray(int arr[]) {
+        for (int value : arr)
+            System.out.print(value + " ");
+        System.out.println();
+    }
+
+    public static void main(String args[]) {
+        int arr[] = {12, 11, 13, 5, 6, 7};
+        HeapSort hs = new HeapSort();
+        hs.heapSort(arr);
+        System.out.println("Sorted array:");
+        hs.printArray(arr);
+    }
+}`,
+                
+                            "python": `def heapify(arr, n, i):
+    largest = i  
+    left = 2 * i + 1  
+    right = 2 * i + 2  
+
+    if left < n and arr[left] > arr[largest]:
+        largest = left
+
+    if right < n and arr[right] > arr[largest]:
+        largest = right
+
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        heapify(arr, n, largest)
+
+def heap_sort(arr):
+    n = len(arr)
+
+    for i in range(n // 2 - 1, -1, -1):
+        heapify(arr, n, i)
+
+    for i in range(n - 1, 0, -1):
+        arr[i], arr[0] = arr[0], arr[i]
+        heapify(arr, i, 0)
+
+arr = [12, 11, 13, 5, 6, 7]
+heap_sort(arr)
+print("Sorted array:", arr)
+`,   
+                            "javascript":`function heapify(arr, n, i) {
+    let largest = i;
+    let left = 2 * i + 1;
+    let right = 2 * i + 2;
+
+    if (left < n && arr[left] > arr[largest])
+        largest = left;
+
+    if (right < n && arr[right] > arr[largest])
+        largest = right;
+
+    if (largest !== i) {
+        [arr[i], arr[largest]] = [arr[largest], arr[i]];
+        heapify(arr, n, largest);
+    }
+}
+
+function heapSort(arr) {
+    let n = arr.length;
+
+    for (let i = Math.floor(n / 2) - 1; i >= 0; i--)
+        heapify(arr, n, i);
+
+    for (let i = n - 1; i > 0; i--) {
+        [arr[0], arr[i]] = [arr[i], arr[0]];
+        heapify(arr, i, 0);
+    }
+}
+
+let arr = [12, 11, 13, 5, 6, 7];
+heapSort(arr);
+console.log("Sorted array:", arr);
+`
+};           
+                        function updateCode() {
+                            var selectedLang = languageDropdown.value;
+                            codeContent.textContent = codes[selectedLang] || "Code not available.";
+                            codeBlock.style.display = "block"; // Show the code block
+                        }
+                
+                        // Update code on language change
+                        languageDropdown.addEventListener("change", updateCode);
+                
+                        // Show default language code on page load
+                        updateCode();
+                    });
+                </script>
+                <div class="sorting-container">
+                    <img src="https://www.boardinfinity.com/blog/content/images/2023/03/Heap-sort-algo.png" alt="Heap Sort Visualization">
+                </div>
+</body>
+</html>
+

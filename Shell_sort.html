@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shell Sort Visualization</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #111;
+            color: #ff9900;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin-top: 60px;
+            text-align: left;
+            margin-left: 1px;
+        }
+        canvas {
+            background: #222;
+            display: block;
+            margin: auto;
+        }
+        button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 20px;
+            background: #ff9900;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ffcc00;
+        }
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .buttons button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: orange;
+            color: black;
+            border-radius: 5px;
+        }
+        .code-container {
+            display: none;
+            background-color: #1e1e1e;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: left;
+            width: 60%;
+            margin: auto;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }       
+    </style>   
+</head>
+<body>
+    <h1>Shell Sort Visualization</h1>
+    <canvas id="ShellCanvas"></canvas>
+    <br>
+    <button onclick="startShellSort()">Visualize Shell Sort</button>
+
+    <script>
+    const canvas = document.getElementById("ShellCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth * 0.9;
+    canvas.height = 500;
+
+    let array = [];
+    const numBars = 50; // Number of elements to sort
+    const barWidth = canvas.width / numBars;
+
+    function generateArray() {
+        array = [];
+        for (let i = 0; i < numBars; i++) {
+            array.push(Math.floor(Math.random() * canvas.height * 0.8) + 10);
+        }
+        drawArray();
+    }
+
+    function drawArray(highlightIndices = []) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < array.length; i++) {
+            ctx.fillStyle = highlightIndices.includes(i) ? "red" : "orange";
+            ctx.fillRect(i * barWidth, canvas.height - array[i], barWidth - 2, array[i]);
+        }
+    }
+
+    async function shellSort() {
+        let n = array.length;
+        for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
+            for (let i = gap; i < n; i++) {
+                let temp = array[i];
+                let j = i;
+                while (j >= gap && array[j - gap] > temp) {
+                    array[j] = array[j - gap];
+                    j -= gap;
+                    drawArray([j, j - gap]);
+                    await sleep(50);
+                }
+                array[j] = temp;
+                drawArray([j]);
+                await sleep(50);
+            }
+        }
+    }
+
+    async function startShellSort() {
+        generateArray();
+        await sleep(1000);
+        await shellSort();
+        drawArray();
+    }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    generateArray();
+    </script>
+</body>
+</html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shell Sort - Sorting Algorithm Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </header>
+<div class="Shell-sort-info">
+    <div class="content-container">
+        <div class="description">
+            <h2>DESCRIPTION</h2>
+            <p>
+                Shell Sort is an <strong>in-place comparison-based sorting algorithm</strong> that improves upon Insertion Sort by allowing exchanges of elements that are far apart. It works by dividing the array into smaller subarrays using a decreasing gap sequence and sorting each subarray independently.
+            </p>
+            <p>
+                The algorithm starts with a large gap and reduces it in each iteration, eventually performing a final pass with a gap of 1 (which is equivalent to Insertion Sort). By sorting elements that are far apart first, Shell Sort reduces the number of shifts required in the final stage.
+            </p>
+            <p>
+                Shell Sort has an <strong>average time complexity of O(n log n)</strong> for optimal gap sequences. The worst-case complexity varies depending on the gap sequence, typically ranging between <strong>O(n²)</strong> and <strong>O(n log² n)</strong>.
+            </p>
+            <p>
+                One key advantage of Shell Sort is its improved efficiency over Insertion Sort, especially for large datasets. It also performs well with partially sorted arrays and requires no extra space, making it a practical choice for embedded systems and memory-constrained environments.
+            </p>
+            <p>
+                Shell Sort is widely used in applications that require an efficient in-place sorting method, such as data preprocessing, small-scale sorting tasks, and real-time computing, where fast execution and low memory usage are crucial.
+            </p>
+        </div>                                                                         
+        <div class="complexity">
+            <h2>COMPLEXITY</h2>
+            <table>
+                <tr>
+                    <td><strong>Average Complexity</strong></td>
+                    <td>O(n log n) (depends on gap sequence)</td>
+                </tr>
+                <tr>
+                    <td><strong>Best Case</strong></td>
+                    <td>O(n log n)</td>
+                </tr>
+                <tr>
+                    <td><strong>Worst Case</strong></td>
+                    <td>O(n²) (depends on gap sequence)</td>
+                </tr>
+                <tr>
+                    <td><strong>Space Complexity</strong></td>
+                    <td>O(1) (in-place sorting)</td>
+                </tr>
+            </table>
+        </div>                                                                           
+    </div>
+</div>        
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Shell Sort Visualization</title>
+                <style>
+                    body {
+                        background-color: #333;
+                        color: white;
+                        font-family: Arial, sans-serif;
+                        text-align: center;
+                    }
+                    select {
+                        padding: 10px;
+                        font-size: 16px;
+                        background-color: orange;
+                        border: none;
+                        color: black;
+                    }
+                    pre {
+                        background-color: #333;
+                        padding: 15px;
+                        text-align: left;
+                        display: none; /* Initially hidden */
+                    }    
+                </style>
+            </head>
+            <body>           
+                <h2>Shell SORT IMPLEMENTATION</h2>
+                <label for="language">Choose a language:</label>
+                <select id="language">
+                    <option value="c">C</option>
+                    <option value="c++">C++</option>
+                    <option value="java">java</option>
+                    <option value="python">Python</option>
+                    <option value="javascript">javascript</option>
+                </select>
+            
+                <pre id="code-block">
+                    <code id="code"></code>
+                </pre>
+            
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        var codeBlock = document.getElementById("code-block");
+                        var codeContent = document.getElementById("code");
+                        var languageDropdown = document.getElementById("language");
+                
+                        var codes = {
+                            "c":`#include <stdio.h>
+
+void shellSort(int arr[], int n) {
+    for (int gap = n / 2; gap > 0; gap /= 2) {
+        for (int i = gap; i < n; i++) {
+            int temp = arr[i];
+            int j;
+            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
+                arr[j] = arr[j - gap];
+            }
+            arr[j] = temp;
+        }
+    }
+}
+
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
+
+int main() {
+    int arr[] = {12, 34, 54, 2, 3};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    shellSort(arr, n);
+    printArray(arr, n);
+    return 0;
+}`,          
+                            "c++":`#include <iostream>
+using namespace std;
+
+void shellSort(int arr[], int n) {
+    for (int gap = n / 2; gap > 0; gap /= 2) {
+        for (int i = gap; i < n; i++) {
+            int temp = arr[i], j;
+            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
+                arr[j] = arr[j - gap];
+            }
+            arr[j] = temp;
+        }
+    }
+}
+
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+}
+
+int main() {
+    int arr[] = {12, 34, 54, 2, 3};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    shellSort(arr, n);
+    printArray(arr, n);
+    return 0;
+}`,           
+                            "java":`import java.util.Arrays;
+
+public class ShellSort {
+    static void shellSort(int arr[]) {
+        int n = arr.length;
+        for (int gap = n / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < n; i++) {
+                int temp = arr[i];
+                int j;
+                for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
+                    arr[j] = arr[j - gap];
+                }
+                arr[j] = temp;
+            }
+        }
+    }
+
+    public static void main(String args[]) {
+        int arr[] = {12, 34, 54, 2, 3};
+        shellSort(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+}`,
+                
+                            "python":`def shell_sort(arr):
+    n = len(arr)
+    gap = n // 2
+    
+    while gap > 0:
+        for i in range(gap, n):
+            temp = arr[i]
+            j = i
+            while j >= gap and arr[j - gap] > temp:
+                arr[j] = arr[j - gap]
+                j -= gap
+            arr[j] = temp
+        gap //= 2
+
+arr = [12, 34, 54, 2, 3]
+shell_sort(arr)
+print(arr)
+`,   
+                            "javascript":`function shellSort(arr) {
+    let n = arr.length;
+    for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
+        for (let i = gap; i < n; i++) {
+            let temp = arr[i];
+            let j;
+            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
+                arr[j] = arr[j - gap];
+            }
+            arr[j] = temp;
+        }
+    }
+}
+
+let arr = [12, 34, 54, 2, 3];
+shellSort(arr);
+console.log(arr);
+`
+};           
+                        function updateCode() {
+                            var selectedLang = languageDropdown.value;
+                            codeContent.textContent = codes[selectedLang] || "Code not available.";
+                            codeBlock.style.display = "block"; // Show the code block
+                        }
+                
+                        // Update code on language change
+                        languageDropdown.addEventListener("change", updateCode);
+                
+                        // Show default language code on page load
+                        updateCode();
+                    });
+                </script>
+                <div class="sorting-container">
+                    <img src="https://runestone.academy/ns/books/published/pythonds/_images/shellsortB.png" alt="Shell Sort Visualization">
+                </div>
+</body>
+</html>
+

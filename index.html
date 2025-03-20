@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sort Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<header class="navbar">
+    <div class="menu-toggle" onclick="toggleSidebar()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <h1 class="site-title">SORTING ALGORITHM VISUALIZER</h1>
+</header>
+
+    <!-- Main Container -->
+    <div class="hero-container">
+        <h1 class="hero-title"><span>SORT</span> VISUALIZER</h1>
+    </div>
+
+    <style>
+        body {
+    margin: 0;
+    padding: 0;
+    background-color: lightblack; /* Ensure full blue background */
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden; /* Prevent unwanted horizontal scrolling */
+}
+
+.black-strip {
+    background-color: black;
+    width: 100%;
+    height: 50px; /* Adjust height as needed */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.main-content {
+    margin-left: 260px; /* Adjust according to sidebar width */
+    padding: 20px;
+    color: white;
+}
+    </style>
+
+    <div class="container">
+        <h1>INTRODUCTION</h1>
+
+        <p>Data structures provide a systematic way to organize, store, and manipulate data efficiently. They are crucial in computer science for optimizing data processing and retrieval. <span class="highlight">Sorting algorithms</span> help arrange data in a specific order (numerical, lexicographical, etc.), making it easier to search and analyze. Sorting is widely used in applications like databases, operating systems, artificial intelligence, and data analytics.</p>
+
+        <p>Sorting algorithms are evaluated based on <span class="highlight">time complexity</span> (speed) and <span class="highlight">space complexity</span> (memory usage). They are categorized into different types depending on their efficiency and approach.</p>
+
+        <h2>Types of Sorting Algorithms</h2>
+
+        <h3>1. Quadratic Sorting Algorithms (O(n²))</h3>
+        <ul>
+            <li>Perform poorly on large datasets due to their high time complexity.</li>
+            <li>Suitable for small datasets and educational purposes.</li>
+            <li><span class="highlight">Examples:</span> Bubble Sort, Insertion Sort, Selection Sort.</li>
+        </ul>
+
+        <h3>2. Logarithmic Sorting Algorithms (O(n log n))</h3>
+        <ul>
+            <li>More efficient than quadratic sorts, widely used in real-world applications.</li>
+            <li>Ideal for handling large datasets effectively.</li>
+            <li><span class="highlight">Examples:</span> Quick Sort, Merge Sort, Heap Sort.</li>
+        </ul>
+
+        <h3>3. Weird Sorting Algorithms</h3>
+        <ul>
+            <li>Unconventional methods, mainly used for research and fun challenges.</li>
+            <li><span class="highlight">Examples:</span> Bogo Sort, Stooge Sort, Sleep Sort.</li>
+        </ul>
+
+        <h3>4. Custom Sorting Algorithms</h3>
+        <ul>
+            <li>User-defined sorting methods tailored for specific needs.</li>
+            <li>Designed for specialized applications where standard algorithms may not be optimal.</li>
+            <li><span class="highlight">Examples:</span> Bucket Sort, Radix Sort.</li>
+        </ul>
+
+        <h2>Key Factors in Choosing a Sorting Algorithm</h2>
+        <ul>
+            <li><span class="highlight">Dataset Size:</span> Small datasets may work fine with quadratic sorts, while large datasets need logarithmic sorts.</li>
+            <li><span class="highlight">Memory Constraints:</span> Some sorting algorithms require extra space (e.g., Merge Sort), while others are in-place (e.g., Quick Sort).</li>
+            <li><span class="highlight">Stability:</span> Some sorting algorithms maintain the relative order of equal elements (e.g., Merge Sort), while others don’t (e.g., Quick Sort).</li>
+            <li><span class="highlight">Use Case:</span> Certain applications require specialized sorting techniques for better efficiency.</li>
+        </ul>
+
+        <p>Understanding different sorting algorithms helps in selecting the right method for various applications, ensuring <span class="highlight">optimal speed, memory usage, and computational performance.</span></p>
+    </div>
+    <button class="learn-sort-btn" onclick="toggleSidebar()">Let's Learn Sorting</button>
+    <div class="footer-info">
+        <h2>Kajal Kumari</h2>
+        <p>Second Year, B.Tech (CSE-AI)</p>
+        <p>Batch: 2023-2027</p>
+        <p>Email: <a href="mailto:kajal080btcseai23@igdtuw.ac.in">kajal080btcseai23@igdtuw.ac.in</a></p>
+    </div>       
+</body>    
+<body>   
+    <input type="checkbox" id="menu-toggle" hidden>
+        <label for="menu-toggle" class="toggle">
+            <span class="top_line common"></span>
+            <span class="middle_line common"></span>
+            <span class="bottom_line common"></span>
+        </label>
+        <div class="slide" id="sidebar">
+            <h1>Home</h1>
+            <h2>Sorts</h2>
+            <ul>
+                <li>
+                    <a href="#" class="dropdown-btn">LOGARITHMIC</a>
+                    <ul class="dropdown-content">
+                        <li><a href="quick_sort.html">Quick Sort</a></li>
+                        <li><a href="merge_sort.html">Merge Sort</a></li>
+                        <li><a href="heap_sort.html">Heap Sort</a></li>
+                    </ul>
+                </li> 
+
+                <li>
+                    <a href="#" class="dropdown-btn">QUADRATIC</a>
+                    <ul class="dropdown-content">
+                        <li><a href="Bubble_sort.html">Bubble Sort</a></li>
+                        <li><a href="Selection_sort.html">Selection Sort</a></li>
+                        <li><a href="Insertion_sort.html">Insertion Sort</a></li>
+                        <li>
+                            <a href="#" class="nested-dropdown-btn">Other Quadratic Sorts</a>
+                            <ul class="nested-dropdown-content">
+                                <li><a href="Gnome_sort.html">Gnome Sort</a></li>
+                                <li><a href="Shaker_sort.html">Shaker Sort</a></li>
+                                <li><a href="Odd-Even_sort.html">Odd-Even Sort</a></li>
+                                <li><a href="Pancake_sort.html">Pancake Sort</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="dropdown-btn">WEIRD</a>
+                    <ul class="dropdown-content">
+                        <li><a href="Bitonic_sort.html">Bitonic Sort</a></li>
+                        <li><a href="Radix_sort.html">Radix Sort</a></li>
+                        <li><a href="Shell_sort.html">Shell Sort</a></li>
+                        <li>
+                            <a href="#" class="nested-dropdown-btn">Other Weird Sorts</a>
+                            <ul class="nested-dropdown-content">
+                                <li><a href="Comb_sort.html">Comb Sort</a></li>
+                                <li><a href="Bogo_sort.html">Bogo Sort</a></li>
+                                <li><a href="Stooge_sort.html">Stooge Sort</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="Theory.html">Theory</a>
+                </li>
+
+                <li>
+                    <a href="Videos.html">Videos</a>
+                </li>
+            </ul>
+            </ul>
+        </div>
+        <script src="script.js"></script>     
+</body>
+</html>
+
+<a href="quick_sort.html">Quick Sort</a>

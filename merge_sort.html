@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge Sort Visualization</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #111;
+            color: #ff9900;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin-top: 60px;
+            text-align: left;
+            margin-left: 1px;
+        }
+        canvas {
+            background: #222;
+            display: block;
+            margin: auto;
+        }
+        button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 20px;
+            background: #ff9900;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ffcc00;
+        }
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .buttons button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: orange;
+            color: black;
+            border-radius: 5px;
+        }
+        .code-container {
+            display: none;
+            background-color: #1e1e1e;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: left;
+            width: 60%;
+            margin: auto;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }       
+    </style>
+</head>
+<body>
+    <h1>Merge Sort Visualization</h1>
+    <canvas id="mergeSortCanvas"></canvas>
+    <br>
+    <button onclick="startMergeSort()">Visualize Merge Sort</button>
+    
+    <script>
+        const canvas = document.getElementById("mergeSortCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth * 0.9;
+        canvas.height = 500;
+
+        let array = [];
+        const numBars = 50;
+        const barWidth = canvas.width / numBars;
+
+        function generateArray() {
+            array = [];
+            for (let i = 0; i < numBars; i++) {
+                array.push(Math.floor(Math.random() * canvas.height));
+            }
+            drawArray();
+        }
+
+        function drawArray(highlightIndices = []) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < array.length; i++) {
+                ctx.fillStyle = highlightIndices.includes(i) ? "red" : "orange";
+                ctx.fillRect(i * barWidth, canvas.height - array[i], barWidth - 2, array[i]);
+            }
+        }
+
+        async function mergeSort(left = 0, right = array.length - 1) {
+            if (left < right) {
+                let pivotIndex = await partition(left, right);
+                await mergeSort(left, pivotIndex - 1);
+                await mergeSort(pivotIndex + 1, right);
+            }
+        }
+
+        async function partition(left, right) {
+            let pivotValue = array[right];
+            let partitionIndex = left;
+            
+            for (let i = left; i < right; i++) {
+                if (array[i] < pivotValue) {
+                    [array[i], array[partitionIndex]] = [array[partitionIndex], array[i]];
+                    partitionIndex++;
+                    drawArray([i, partitionIndex]);
+                    await sleep(100);
+                }
+            }
+            [array[partitionIndex], array[right]] = [array[right], array[partitionIndex]];
+            drawArray([partitionIndex, right]);
+            await sleep(100);
+            return partitionIndex;
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function startMergeSort() {
+            generateArray();
+            setTimeout(() => mergeSort(), 1000);
+        }
+
+        generateArray();
+    </script>
+</body>
+</html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge Sort - Sorting Algorithm Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </header>
+<div class="merge-sort-info">
+    <div class="content-container">
+        <div class="description">
+            <h2>DESCRIPTION</h2>
+            <p>
+                Merge Sort is a sorting algorithm based on the **divide and conquer** strategy, where the data structure is repeatedly divided into smaller subarrays until each subarray contains a single element.
+            </p>
+            <p>
+                Once divided, the algorithm merges these smaller subarrays in a sorted manner, combining them back into a single sorted array. This merging process ensures that the elements are arranged in the correct order.
+            </p>
+            <p>
+                This approach is known as <a href="#">Divide and Conquer</a>, which is also used in other sorting algorithms, such as <a href="#">Quick Sort</a>. Merge Sort guarantees a predictable **O(n log n)** time complexity, making it highly efficient for large datasets.
+            </p>
+            <p>
+                Merge Sort is a **stable** and **comparison-based** sorting algorithm that is particularly useful for sorting linked lists and external sorting operations where data cannot fit into memory.
+            </p>
+            <p>
+                The algorithm works by recursively **splitting** the array into two halves, sorting each half separately, and then **merging** them back together in a sorted order.
+            </p>
+        </div>    
+        <div class="complexity">
+            <h2>COMPLEXITY</h2>
+            <table>
+                <tr>
+                    <td><strong>Average Complexity</strong></td>
+                    <td>O(n × log n)</td>
+                </tr>
+                <tr>
+                    <td><strong>Best Case</strong></td>
+                    <td>O(n × log n)</td>
+                </tr>
+                <tr>
+                    <td><strong>Worst Case</strong></td>
+                    <td>O(n × log n)</td>
+                </tr>
+                <tr>
+                    <td><strong>Space Complexity</strong></td>
+                    <td>O(n)</td>
+                </tr>
+            </table>
+        </div>        
+    </div>
+</div>        
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Quick Sort Visualization</title>
+                <style>
+                    body {
+                        background-color: #333;
+                        color: white;
+                        font-family: Arial, sans-serif;
+                        text-align: center;
+                    }
+                    select {
+                        padding: 10px;
+                        font-size: 16px;
+                        background-color: orange;
+                        border: none;
+                        color: black;
+                    }
+                    pre {
+                        background-color: #333;
+                        padding: 15px;
+                        text-align: left;
+                        display: none; /* Initially hidden */
+                    }    
+                </style>
+            </head>
+            <body>
+            
+                <h2>MERGE SORT IMPLEMENTATION</h2>
+                <label for="language">Choose a language:</label>
+                <select id="language">
+                    <option value="c">C</option>
+                    <option value="c++">C++</option>
+                    <option value="java">java</option>
+                    <option value="python">Python</option>
+                    <option value="javascript">javascript</option>
+                </select>
+            
+                <pre id="code-block">
+                    <code id="code"></code>
+                </pre>
+            
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        var codeBlock = document.getElementById("code-block");
+                        var codeContent = document.getElementById("code");
+                        var languageDropdown = document.getElementById("language");
+                
+                        var codes = {
+                            "c":`#include<stdio.h>
+
+void merge(int arr[], int left, int mid, int right) {
+    int i, j, k;
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    int L[n1], R[n2];
+
+    for (i = 0; i < n1; i++)
+        L[i] = arr[left + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[mid + 1 + j];
+
+    i = 0; 
+    j = 0; 
+    k = left; 
+
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(int arr[], int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+
+        merge(arr, left, mid, right);
+    }
+}
+
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
+
+int main() {
+    int arr[] = {12, 11, 13, 5, 6, 7};
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Unsorted array: ");
+    printArray(arr, size);
+
+    mergeSort(arr, 0, size - 1);
+
+    printf("Sorted array: ");
+    printArray(arr, size);
+    return 0;
+}`,          
+                            "c++":`#include<iostream>
+                    using namespace std;
+
+void merge(int arr[], int left, int mid, int right) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    int L[n1], R[n2];
+
+    for (int i = 0; i < n1; i++)
+        L[i] = arr[left + i];
+    for (int j = 0; j < n2; j++)
+        R[j] = arr[mid + 1 + j];
+
+    int i = 0, j = 0, k = left;
+
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(int arr[], int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+
+        merge(arr, left, mid, right);
+    }
+}
+
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+}
+
+int main() {
+    int arr[] = {12, 11, 13, 5, 6, 7};
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    cout << "Unsorted array: ";
+    printArray(arr, size);
+
+    mergeSort(arr, 0, size - 1);
+
+    cout << "Sorted array: ";
+    printArray(arr, size);
+    return 0;
+}`,           
+                            "java":`class MergeSort {
+    void merge(int arr[], int left, int mid, int right) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+
+        int L[] = new int[n1];
+        int R[] = new int[n2];
+
+        for (int i = 0; i < n1; i++)
+            L[i] = arr[left + i];
+        for (int j = 0; j < n2; j++)
+            R[j] = arr[mid + 1 + j];
+
+        int i = 0, j = 0, k = left;
+
+        while (i < n1 && j < n2) {
+            if (L[i] <= R[j]) {
+                arr[k] = L[i];
+                i++;
+            } else {
+                arr[k] = R[j];
+                j++;
+            }
+            k++;
+        }
+
+        while (i < n1) {
+            arr[k] = L[i];
+            i++;
+            k++;
+        }
+
+        while (j < n2) {
+            arr[k] = R[j];
+            j++;
+            k++;
+        }
+    }
+
+    void mergeSort(int arr[], int left, int right) {
+        if (left < right) {
+            int mid = left + (right - left) / 2;
+
+            mergeSort(arr, left, mid);
+            mergeSort(arr, mid + 1, right);
+
+            merge(arr, left, mid, right);
+        }
+    }
+
+    static void printArray(int arr[]) {
+        for (int num : arr)
+            System.out.print(num + " ");
+        System.out.println();
+    }
+
+    public static void main(String args[]) {
+        int arr[] = {12, 11, 13, 5, 6, 7};
+
+        System.out.println("Unsorted array:");
+        printArray(arr);
+
+        MergeSort obj = new MergeSort();
+        obj.mergeSort(arr, 0, arr.length - 1);
+
+        System.out.println("Sorted array:");
+        printArray(arr);
+    }
+}`,
+                
+                            "python": `def merge_sort(arr):
+    if len(arr) > 1:
+        mid = len(arr) // 2
+        left = arr[:mid]
+        right = arr[mid:]
+
+        merge_sort(left)
+        merge_sort(right)
+
+        i = j = k = 0
+
+        while i < len(left) and j < len(right):
+            if left[i] < right[j]:
+                arr[k] = left[i]
+                i += 1
+            else:
+                arr[k] = right[j]
+                j += 1
+            k += 1
+
+        while i < len(left):
+            arr[k] = left[i]
+            i += 1
+            k += 1
+
+        while j < len(right):
+            arr[k] = right[j]
+            j += 1
+            k += 1
+
+arr = [12, 11, 13, 5, 6, 7]
+print("Unsorted array:", arr)
+merge_sort(arr)
+print("Sorted array:", arr)
+`,   
+                            "javascript":`function mergeSort(arr) {
+    if (arr.length <= 1) return arr;
+
+    const mid = Math.floor(arr.length / 2);
+    const left = mergeSort(arr.slice(0, mid));
+    const right = mergeSort(arr.slice(mid));
+
+    return merge(left, right);
+}
+
+function merge(left, right) {
+    let sortedArray = [];
+    while (left.length && right.length) {
+        if (left[0] < right[0]) {
+            sortedArray.push(left.shift());
+        } else {
+            sortedArray.push(right.shift());
+        }
+    }
+    return [...sortedArray, ...left, ...right];
+}
+
+let arr = [12, 11, 13, 5, 6, 7];
+console.log("Unsorted array:", arr);
+arr = mergeSort(arr);
+console.log("Sorted array:", arr);
+`
+};           
+                        function updateCode() {
+                            var selectedLang = languageDropdown.value;
+                            codeContent.textContent = codes[selectedLang] || "Code not available.";
+                            codeBlock.style.display = "block"; // Show the code block
+                        }
+                
+                        // Update code on language change
+                        languageDropdown.addEventListener("change", updateCode);
+                
+                        // Show default language code on page load
+                        updateCode();
+                    });
+                </script>
+                <div class="sorting-container">
+                    <img src="https://www.programiz.com/sites/tutorial2program/files/merge-sort-example_0.png" alt="Merge Sort Visualization">
+                </div>
+</body>
+</html>
+

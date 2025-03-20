@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaker Sort Visualization</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #111;
+            color: #ff9900;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin-top: 60px;
+            text-align: left;
+            margin-left: 1px;
+        }
+        canvas {
+            background: #222;
+            display: block;
+            margin: auto;
+        }
+        button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 20px;
+            background: #ff9900;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ffcc00;
+        }
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .buttons button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: orange;
+            color: black;
+            border-radius: 5px;
+        }
+        .code-container {
+            display: none;
+            background-color: #1e1e1e;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: left;
+            width: 60%;
+            margin: auto;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }       
+    </style>   
+</head>
+<body>
+    <h1>Shaker Sort Visualization</h1>
+    <canvas id="Shaker"></canvas>
+    <br>
+    <button onclick="startShakerSort()">Visualize Shaker Sort</button>
+
+    <script>
+        const canvas = document.getElementById("Shaker"); // Corrected the ID
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth * 0.9;
+        canvas.height = 500;
+
+        let array = [];
+        const numBars = 50;
+        const barWidth = canvas.width / numBars;
+
+        function generateArray() {
+            array = [];
+            for (let i = 0; i < numBars; i++) {
+                array.push(Math.floor(Math.random() * canvas.height * 0.8) + 10);
+            }
+            drawArray();
+        }
+
+        function drawArray(highlightIndices = []) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < array.length; i++) {
+                ctx.fillStyle = highlightIndices.includes(i) ? "red" : "orange"; // Highlight selected elements
+                ctx.fillRect(i * barWidth, canvas.height - array[i], barWidth - 2, array[i]);
+            }
+        }
+
+        async function shakerSort() {
+            let start = 0, end = array.length - 1;
+            let swapped = true;
+
+            while (swapped) {
+                swapped = false;
+
+                // Left to right pass
+                for (let i = start; i < end; i++) {
+                    if (array[i] > array[i + 1]) {
+                        [array[i], array[i + 1]] = [array[i + 1], array[i]];
+                        drawArray([i, i + 1]); // Highlight swap
+                        await sleep(50);
+                        swapped = true;
+                    }
+                }
+                end--;
+
+                if (!swapped) break; // If no swaps, array is sorted
+                swapped = false;
+
+                // Right to left pass
+                for (let i = end; i > start; i--) {
+                    if (array[i] < array[i - 1]) {
+                        [array[i], array[i - 1]] = [array[i - 1], array[i]];
+                        drawArray([i, i - 1]); // Highlight swap
+                        await sleep(50);
+                        swapped = true;
+                    }
+                }
+                start++;
+            }
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function startShakerSort() {
+            generateArray();
+            await sleep(1000); // Delay before sorting starts
+            await shakerSort();
+        }
+
+        generateArray();
+    </script>
+</body>
+</html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaker Sort - Sorting Algorithm Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </header>
+<div class="Shaker-sort-info">
+    <div class="content-container">
+        <div class="description">
+            <h2>DESCRIPTION</h2>
+            <p>
+                Shaker Sort, also known as **Cocktail Shaker Sort** or **Bidirectional Bubble Sort**, is a **comparison-based sorting algorithm** that extends Bubble Sort by sorting in both directions alternately.
+            </p>
+            <p>
+                The algorithm moves through the list in two phases: first, it moves from left to right, pushing the largest element to its correct position (like Bubble Sort). Then, it moves from right to left, pushing the smallest element to its correct position. This bidirectional movement helps reduce the number of passes needed compared to Bubble Sort.
+            </p>
+            <p>
+                Shaker Sort has a **worst-case and average time complexity of O(n²)**, making it inefficient for large datasets. However, for nearly sorted data, it can perform closer to **O(n)**, making it more efficient in such cases.
+            </p>
+            <p>
+                One advantage of Shaker Sort is that it **reduces the number of iterations** by moving in both directions, making it slightly more efficient than Bubble Sort. Like Bubble Sort, it is a **stable sorting algorithm** and works **in-place**, requiring no extra memory.
+            </p>
+            <p>
+                Although Shaker Sort is rarely used in practical applications, it is useful for educational purposes and for small datasets where a simple implementation is preferred.
+            </p>
+        </div>                                               
+        <div class="complexity">
+            <h2>COMPLEXITY</h2>
+            <table>
+                <tr>
+                    <td><strong>Average Complexity</strong></td>
+                    <td>O(n²)</td>
+                </tr>
+                <tr>
+                    <td><strong>Best Case</strong></td>
+                    <td>O(n)</td>
+                </tr>
+                <tr>
+                    <td><strong>Worst Case</strong></td>
+                    <td>O(n²)</td>
+                </tr>
+                <tr>
+                    <td><strong>Space Complexity</strong></td>
+                    <td>O(1)</td>
+                </tr>
+            </table>
+        </div>                                              
+    </div>
+</div>        
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Insertion Sort Visualization</title>
+                <style>
+                    body {
+                        background-color: #333;
+                        color: white;
+                        font-family: Arial, sans-serif;
+                        text-align: center;
+                    }
+                    select {
+                        padding: 10px;
+                        font-size: 16px;
+                        background-color: orange;
+                        border: none;
+                        color: black;
+                    }
+                    pre {
+                        background-color: #333;
+                        padding: 15px;
+                        text-align: left;
+                        display: none; /* Initially hidden */
+                    }    
+                </style>
+            </head>
+            <body>           
+                <h2>Shaker SORT IMPLEMENTATION</h2>
+                <label for="language">Choose a language:</label>
+                <select id="language">
+                    <option value="c">C</option>
+                    <option value="c++">C++</option>
+                    <option value="java">java</option>
+                    <option value="python">Python</option>
+                    <option value="javascript">javascript</option>
+                </select>
+            
+                <pre id="code-block">
+                    <code id="code"></code>
+                </pre>
+            
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        var codeBlock = document.getElementById("code-block");
+                        var codeContent = document.getElementById("code");
+                        var languageDropdown = document.getElementById("language");
+                
+                        var codes = {
+                            "c":`#include <stdio.h>
+
+void shakerSort(int arr[], int n) {
+    int swapped = 1, start = 0, end = n - 1;
+    while (swapped) {
+        swapped = 0;
+        for (int i = start; i < end; i++) {
+            if (arr[i] > arr[i + 1]) {
+                int temp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = temp;
+                swapped = 1;
+            }
+        }
+        end--;
+
+        if (!swapped) break;
+        swapped = 0;
+
+        for (int i = end; i > start; i--) {
+            if (arr[i] < arr[i - 1]) {
+                int temp = arr[i];
+                arr[i] = arr[i - 1];
+                arr[i - 1] = temp;
+                swapped = 1;
+            }
+        }
+        start++;
+    }
+}
+
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+    printf("\n");
+}
+
+int main() {
+    int arr[] = {5, 3, 8, 4, 2, 7, 1};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    shakerSort(arr, n);
+    printArray(arr, n);
+    return 0;
+}`,          
+                            "c++":`#include <iostream>
+using namespace std;
+
+void shakerSort(int arr[], int n) {
+    bool swapped = true;
+    int start = 0, end = n - 1;
+
+    while (swapped) {
+        swapped = false;
+        for (int i = start; i < end; i++) {
+            if (arr[i] > arr[i + 1]) {
+                swap(arr[i], arr[i + 1]);
+                swapped = true;
+            }
+        }
+        end--;
+
+        if (!swapped) break;
+        swapped = false;
+
+        for (int i = end; i > start; i--) {
+            if (arr[i] < arr[i - 1]) {
+                swap(arr[i], arr[i - 1]);
+                swapped = true;
+            }
+        }
+        start++;
+    }
+}
+
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++) cout << arr[i] << " ";
+    cout << endl;
+}
+
+int main() {
+    int arr[] = {5, 3, 8, 4, 2, 7, 1};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    shakerSort(arr, n);
+    printArray(arr, n);
+    return 0;
+}`,           
+                            "java":`import java.util.Arrays;
+
+public class ShakerSort {
+    public static void shakerSort(int arr[]) {
+        boolean swapped = true;
+        int start = 0, end = arr.length - 1;
+
+        while (swapped) {
+            swapped = false;
+            for (int i = start; i < end; i++) {
+                if (arr[i] > arr[i + 1]) {
+                    int temp = arr[i];
+                    arr[i] = arr[i + 1];
+                    arr[i + 1] = temp;
+                    swapped = true;
+                }
+            }
+            end--;
+
+            if (!swapped) break;
+            swapped = false;
+
+            for (int i = end; i > start; i--) {
+                if (arr[i] < arr[i - 1]) {
+                    int temp = arr[i];
+                    arr[i] = arr[i - 1];
+                    arr[i - 1] = temp;
+                    swapped = true;
+                }
+            }
+            start++;
+        }
+    }
+
+    public static void main(String[] args) {
+        int arr[] = {5, 3, 8, 4, 2, 7, 1};
+        shakerSort(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+}`,
+                
+                            "python": `def shaker_sort(arr):
+    start, end = 0, len(arr) - 1
+    swapped = True
+
+    while swapped:
+        swapped = False
+        for i in range(start, end):
+            if arr[i] > arr[i + 1]:
+                arr[i], arr[i + 1] = arr[i + 1], arr[i]
+                swapped = True
+        end -= 1
+
+        if not swapped:
+            break
+        swapped = False
+
+        for i in range(end, start, -1):
+            if arr[i] < arr[i - 1]:
+                arr[i], arr[i - 1] = arr[i - 1], arr[i]
+                swapped = True
+        start += 1
+
+arr = [5, 3, 8, 4, 2, 7, 1]
+shaker_sort(arr)
+print(arr)
+`,   
+                            "javascript":`function shakerSort(arr) {
+    let start = 0, end = arr.length - 1;
+    let swapped = true;
+
+    while (swapped) {
+        swapped = false;
+
+        for (let i = start; i < end; i++) {
+            if (arr[i] > arr[i + 1]) {
+                [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+                swapped = true;
+            }
+        }
+        end--;
+
+        if (!swapped) break;
+        swapped = false;
+
+        for (let i = end; i > start; i--) {
+            if (arr[i] < arr[i - 1]) {
+                [arr[i], arr[i - 1]] = [arr[i - 1], arr[i]];
+                swapped = true;
+            }
+        }
+        start++;
+    }
+}
+
+let arr = [5, 3, 8, 4, 2, 7, 1];
+shakerSort(arr);
+console.log(arr);
+`
+};           
+                        function updateCode() {
+                            var selectedLang = languageDropdown.value;
+                            codeContent.textContent = codes[selectedLang] || "Code not available.";
+                            codeBlock.style.display = "block"; // Show the code block
+                        }
+                
+                        // Update code on language change
+                        languageDropdown.addEventListener("change", updateCode);
+                
+                        // Show default language code on page load
+                        updateCode();
+                    });
+                </script>
+                <div class="sorting-container">
+                    <img src="https://www.baeldung.com/wp-content/uploads/sites/4/2022/09/cocktail2-1024x728.png" alt="Shaker Sort Visualization">
+                </div>
+</body>
+</html>
+

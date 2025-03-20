@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Algorithm Videos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #f4f4f9, #dfe7fd);
+            padding: 20px;
+        }
+        .back-link {
+            text-align: left;
+            margin-bottom: 10px;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background:#f4f4f9;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        a {
+            text-decoration: none;
+            color: blue;
+            font-weight: bold;
+            display: block;
+            margin-top: 5px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-link">
+        <a href="index.html">&larr; Back to Home</a>
+    </div> 
+    <h1>Sorting Algorithm Video Resources</h1>
+    <ul id="videoList"></ul>
+
+    <script>
+        const videos = [
+            { name: "Quick Sort", urls: ["https://www.youtube.com/watch?v=WIrA4YexLRQ","https://www.youtube.com/watch?v=2qK31-MQnWw"] },
+            { name: "Merge Sort", urls: ["https://www.youtube.com/watch?v=ogjf7ORKfd8","https://www.youtube.com/watch?v=JqipLIKtolM"] },
+            { name: "Heap Sort", urls: ["https://www.youtube.com/watch?v=HqPJF2L5h9U", "https://www.youtube.com/watch?v=nJ6FdAIr_6g"] },
+            { name: "Bubble Sort", urls: ["https://www.youtube.com/watch?v=p__ETf2CKY4", "https://www.youtube.com/watch?v=re9ytVtt5zg&t=3s"] },
+            { name: "Selection Sort", urls: ["https://www.youtube.com/watch?v=g-PGLbMth_g", "https://www.youtube.com/watch?v=Lrd1QaKyok4"] },
+            { name: "Insertion Sort", urls: ["https://www.youtube.com/watch?v=oTICKmJhLXI", "https://www.youtube.com/watch?v=s9fmGjFY1v0"] },
+            { name: "Gnome Sort", urls: ["https://www.youtube.com/watch?v=9cIjvXEeOhQ"] },
+            { name: "Shaker Sort", urls: ["https://www.youtube.com/watch?v=lxwMZvwKmMs"] },
+            { name: "Odd-Even Sort", urls: ["https://www.youtube.com/watch?v=1UEWb_dgkq8"] },
+            { name: "Pancake Sort", urls: ["https://www.youtube.com/watch?v=AFtXLUn_TZg", "https://www.youtube.com/watch?v=1XHSNf18u7A"] },
+            { name: "Bitonic Sort", urls: ["https://www.youtube.com/watch?v=uEfieI0MumY", "https://www.youtube.com/watch?v=c0vhVdWbQ4Q"] },
+            { name: "Radix Sort", urls: ["https://www.youtube.com/watch?v=XiuSW_mEn7g", "https://www.youtube.com/watch?v=9QSgBO9yjKU"] },
+            { name: "Shell Sort", urls: ["https://www.youtube.com/watch?v=ddeLSDsYVp8", "https://www.youtube.com/watch?v=4fO6PnW1WSs"] },
+            { name: "Comb Sort", urls: ["https://www.youtube.com/watch?v=YLs01PttjQ4"] },
+            { name: "Bogo Sort", urls: ["https://www.youtube.com/watch?v=AGxlhkRFYIw"] },
+            { name: "Stooge Sort", urls: ["https://www.youtube.com/watch?v=0LKT0UzaGw0"] }
+        ];
+
+        const videoList = document.getElementById("videoList");
+
+videos.forEach(video => {
+    const listItem = document.createElement("li");
+    listItem.innerHTML = `<strong>${video.name}</strong>`;
+
+    video.urls.forEach((url, index) => {  
+        const link = document.createElement("a");
+        link.href = url;
+        link.target = "_blank";
+        link.textContent = index === 0 ? "English" : "Hinglish"; 
+        listItem.appendChild(link);
+    });
+
+    videoList.appendChild(listItem);
+});
+    </script>
+</body>
+</html>

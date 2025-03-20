@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Algorithms Comparison</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+            text-align: left;
+            margin-right: 20px;
+        }
+        .back-link {
+            text-align: left;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-link">
+        <a href="index.html">&larr; Back to Home</a>
+    </div>
+    <h1>COMPARISON CHART</h1>
+    <h2> # Comparison chart of all sorting methods</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Sorting Algorithm</th>
+                <th>Time Complexity (Best)</th>
+                <th>Time Complexity (Average)</th>
+                <th>Time Complexity (Worst)</th>
+                <th>Space Complexity</th>
+                <th>Stable</th>
+                <th>Best Use Case</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Quick Sort</td>
+                <td>O(n log n)</td>
+                <td>O(n log n)</td>
+                <td>O(n²)</td>
+                <td>O(log n)</td>
+                <td>No</td>
+                <td>Large datasets</td>
+            </tr>
+            <tr>
+                <td>Merge Sort</td>
+                <td>O(n log n)</td>
+                <td>O(n log n)</td>
+                <td>O(n log n)</td>
+                <td>O(n)</td>
+                <td>Yes</td>
+                <td>Stable sorting with guaranteed efficiency</td>
+            </tr>
+            <tr>
+                <td>Heap Sort</td>
+                <td>O(n log n)</td>
+                <td>O(n log n)</td>
+                <td>O(n log n)</td>
+                <td>O(1)</td>
+                <td>No</td>
+                <td>Worst-case efficiency</td>
+            </tr>
+            <tr>
+                <td>Bubble Sort</td>
+                <td>O(n)</td>
+                <td>O(n²)</td>
+                <td>O(n²)</td>
+                <td>O(1)</td>
+                <td>Yes</td>
+                <td>Small nearly sorted datasets</td>
+            </tr>
+            <tr>
+                <td>Selection Sort</td>
+                <td>O(n²)</td>
+                <td>O(n²)</td>
+                <td>O(n²)</td>
+                <td>O(1)</td>
+                <td>No</td>
+                <td>Minimal swaps</td>
+            </tr>
+            <tr>
+                <td>Insertion Sort</td>
+                <td>O(n)</td>
+                <td>O(n²)</td>
+                <td>O(n²)</td>
+                <td>O(1)</td>
+                <td>Yes</td>
+                <td>Small or nearly sorted datasets</td>
+            </tr>
+            <tr>
+                <td>Gnome Sort</td>
+                <td>O(n)</td>
+                <td>O(n²)</td>
+                <td>O(n²)</td>
+                <td>O(1)</td>
+                <td>Yes</td>
+                <td>Simple implementation</td>
+            </tr>
+            <tr>
+                <td>Shaker Sort</td>
+                <td>O(n)</td>
+                <td>O(n²)</td>
+                <td>O(n²)</td>
+                <td>O(1)</td>
+                <td>Yes</td>
+                <td>Optimized Bubble Sort</td>
+            </tr>
+            <tr>
+                <td>Odd-Even Sort</td>
+                <td>O(n)</td>
+                <td>O(n²)</td>
+                <td>O(n²)</td>
+                <td>O(1)</td>
+                <td>Yes</td>
+                <td>Parallel sorting</td>
+            </tr>
+            <tr>
+                <td>Pancake Sort</td>
+                <td>O(n)</td>
+                <td>O(n²)</td>
+                <td>O(n²)</td>
+                <td>O(1)</td>
+                <td>No</td>
+                <td>Theoretical applications</td>
+            </tr>
+            <tr>
+                <td>Bitonic Sort</td>
+                <td>O(log² n)</td>
+                <td>O(log² n)</td>
+                <td>O(log² n)</td>
+                <td>O(n)</td>
+                <td>No</td>
+                <td>Parallel computing</td>
+            </tr>
+            <tr>
+                <td>Radix Sort</td>
+                <td>O(nk)</td>
+                <td>O(nk)</td>
+                <td>O(nk)</td>
+                <td>O(n + k)</td>
+                <td>Yes</td>
+                <td>Sorting integers</td>
+            </tr>
+            <tr>
+                <td>Shell Sort</td>
+                <td>O(n log n)</td>
+                <td>O(n log² n)</td>
+                <td>O(n²)</td>
+                <td>O(1)</td>
+                <td>No</td>
+                <td>Medium-sized datasets</td>
+            </tr>
+            <tr>
+                <td>Comb Sort</td>
+                <td>O(n log n)</td>
+                <td>O(n²)</td>
+                <td>O(n²)</td>
+                <td>O(1)</td>
+                <td>No</td>
+                <td>Optimized Bubble Sort</td>
+            </tr>
+            <tr>
+                <td>Bogo Sort</td>
+                <td>O(n)</td>
+                <td>O((n+1)!)</td>
+                <td>O((n+1)!)</td>
+                <td>O(1)</td>
+                <td>No</td>
+                <td>Educational demonstration</td>
+            </tr>
+            <tr>
+                <td>Stooge Sort</td>
+                <td>O(n².71)</td>
+                <td>O(n².71)</td>
+                <td>O(n².71)</td>
+                <td>O(1)</td>
+                <td>No</td>
+                <td>Theoretical applications</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

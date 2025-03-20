@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pancake Sort Visualization</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #111;
+            color: #ff9900;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin-top: 60px;
+            text-align: left;
+            margin-left: 1px;
+        }
+        canvas {
+            background: #222;
+            display: block;
+            margin: auto;
+        }
+        button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 20px;
+            background: #ff9900;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ffcc00;
+        }
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .buttons button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: orange;
+            color: black;
+            border-radius: 5px;
+        }
+        .code-container {
+            display: none;
+            background-color: #1e1e1e;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: left;
+            width: 60%;
+            margin: auto;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }       
+    </style>   
+</head>
+<body>
+    <h1>Pancake Sort Visualization</h1>
+    <canvas id="Pancake"></canvas>
+    <br>
+    <button onclick="startPancakeSort()">Visualize Pancake Sort</button>
+
+    <script>
+        const canvas = document.getElementById("Pancake");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth * 0.9;
+        canvas.height = 500;
+
+        let array = [];
+        const numBars = 50;
+        const barWidth = canvas.width / numBars;
+
+        function generateArray() {
+            array = [];
+            for (let i = 0; i < numBars; i++) {
+                array.push(Math.floor(Math.random() * canvas.height * 0.8) + 10);
+            }
+            drawArray();
+        }
+
+        function drawArray(highlightIndices = []) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < array.length; i++) {
+                ctx.fillStyle = highlightIndices.includes(i) ? "red" : "orange"; // Highlight swaps
+                ctx.fillRect(i * barWidth, canvas.height - array[i], barWidth - 2, array[i]);
+            }
+        }
+
+        function flip(k) {
+            let left = 0, right = k;
+            while (left < right) {
+                [array[left], array[right]] = [array[right], array[left]];
+                left++;
+                right--;
+            }
+        }
+
+        async function pancakeSort() {
+            for (let currSize = array.length; currSize > 1; currSize--) {
+                let maxIndex = 0;
+                for (let i = 1; i < currSize; i++) {
+                    if (array[i] > array[maxIndex]) {
+                        maxIndex = i;
+                    }
+                }
+
+                if (maxIndex !== currSize - 1) {
+                    if (maxIndex > 0) {
+                        flip(maxIndex);
+                        drawArray([maxIndex]);
+                        await sleep(500);
+                    }
+                    flip(currSize - 1);
+                    drawArray([currSize - 1]);
+                    await sleep(500);
+                }
+            }
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function startPancakeSort() {
+            generateArray();
+            await sleep(1000);
+            await pancakeSort();
+        }
+
+        generateArray();
+    </script>
+</body>
+</html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pancake Sort - Sorting Algorithm Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </header>
+<div class="Pancake-sort-info">
+    <div class="content-container">
+        <div class="description">
+            <h2>DESCRIPTION</h2>
+            <p>
+                Pancake Sort is a **comparison-based sorting algorithm** that sorts an array by repeatedly flipping (reversing) the order of its elements, similar to flipping pancakes in a stack.
+            </p>
+            <p>
+                The algorithm works by finding the largest unsorted element and flipping it to the top of the stack. Then, it flips the entire unsorted portion of the array to place the largest element in its correct position. This process repeats until the array is completely sorted.
+            </p>
+            <p>
+                Pancake Sort has a **worst-case and average time complexity of O(n²)**, making it inefficient for large datasets. However, it is useful in scenarios where only a restricted set of operations (flips) is allowed.
+            </p>
+            <p>
+                One advantage of Pancake Sort is that it operates **in-place**, requiring no extra memory. Additionally, it provides an interesting approach to sorting where only **prefix reversals** are allowed, making it a topic of study in theoretical computer science.
+            </p>
+            <p>
+                While Pancake Sort is not commonly used in practical applications, it is useful for educational purposes, theoretical research, and scenarios where flip-based sorting is required.
+            </p>
+        </div>                                                             
+        <div class="complexity">
+            <h2>COMPLEXITY</h2>
+            <table>
+                <tr>
+                    <td><strong>Average Complexity</strong></td>
+                    <td>O(n²)</td>
+                </tr>
+                <tr>
+                    <td><strong>Best Case</strong></td>
+                    <td>O(n)</td>
+                </tr>
+                <tr>
+                    <td><strong>Worst Case</strong></td>
+                    <td>O(n²)</td>
+                </tr>
+                <tr>
+                    <td><strong>Space Complexity</strong></td>
+                    <td>O(1)</td>
+                </tr>
+            </table>
+        </div>                                                             
+    </div>
+</div>        
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Pancake Sort Visualization</title>
+                <style>
+                    body {
+                        background-color: #333;
+                        color: white;
+                        font-family: Arial, sans-serif;
+                        text-align: center;
+                    }
+                    select {
+                        padding: 10px;
+                        font-size: 16px;
+                        background-color: orange;
+                        border: none;
+                        color: black;
+                    }
+                    pre {
+                        background-color: #333;
+                        padding: 15px;
+                        text-align: left;
+                        display: none; /* Initially hidden */
+                    }    
+                </style>
+            </head>
+            <body>           
+                <h2>Pancake SORT IMPLEMENTATION</h2>
+                <label for="language">Choose a language:</label>
+                <select id="language">
+                    <option value="c">C</option>
+                    <option value="c++">C++</option>
+                    <option value="java">java</option>
+                    <option value="python">Python</option>
+                    <option value="javascript">javascript</option>
+                </select>
+            
+                <pre id="code-block">
+                    <code id="code"></code>
+                </pre>
+            
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        var codeBlock = document.getElementById("code-block");
+                        var codeContent = document.getElementById("code");
+                        var languageDropdown = document.getElementById("language");
+                
+                        var codes = {
+                            "c":`#include <stdio.h>
+
+// Function to flip array elements up to index i
+void flip(int arr[], int i) {
+    int start = 0;
+    while (start < i) {
+        int temp = arr[start];
+        arr[start] = arr[i];
+        arr[i] = temp;
+        start++;
+        i--;
+    }
+}
+
+// Function to find index of max element in arr[0..n-1]
+int findMax(int arr[], int n) {
+    int maxIndex = 0;
+    for (int i = 1; i < n; i++)
+        if (arr[i] > arr[maxIndex])
+            maxIndex = i;
+    return maxIndex;
+}
+
+// Pancake Sort function
+void pancakeSort(int arr[], int n) {
+    for (int currSize = n; currSize > 1; currSize--) {
+        int maxIndex = findMax(arr, currSize);
+        if (maxIndex != currSize - 1) {
+            flip(arr, maxIndex);
+            flip(arr, currSize - 1);
+        }
+    }
+}
+
+// Function to print array
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
+
+// Driver function
+int main() {
+    int arr[] = {3, 6, 2, 8, 4, 7};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    pancakeSort(arr, n);
+    printf("Sorted array: ");
+    printArray(arr, n);
+    
+    return 0;
+}`,          
+                            "c++":`#include <iostream>
+#include <vector>
+using namespace std;
+
+// Function to flip elements up to index i
+void flip(vector<int>& arr, int i) {
+    int start = 0;
+    while (start < i) {
+        swap(arr[start], arr[i]);
+        start++;
+        i--;
+    }
+}
+
+// Function to find index of max element in arr[0..n-1]
+int findMax(vector<int>& arr, int n) {
+    int maxIndex = 0;
+    for (int i = 1; i < n; i++)
+        if (arr[i] > arr[maxIndex])
+            maxIndex = i;
+    return maxIndex;
+}
+
+// Pancake Sort function
+void pancakeSort(vector<int>& arr) {
+    for (int currSize = arr.size(); currSize > 1; currSize--) {
+        int maxIndex = findMax(arr, currSize);
+        if (maxIndex != currSize - 1) {
+            flip(arr, maxIndex);
+            flip(arr, currSize - 1);
+        }
+    }
+}
+
+// Function to print array
+void printArray(const vector<int>& arr) {
+    for (int num : arr)
+        cout << num << " ";
+    cout << endl;
+}
+
+// Driver function
+int main() {
+    vector<int> arr = {3, 6, 2, 8, 4, 7};
+
+    pancakeSort(arr);
+    cout << "Sorted array: ";
+    printArray(arr);
+    
+    return 0;
+}`,           
+                            "java":`import java.util.Arrays;
+
+public class PancakeSort {
+
+    // Function to flip the array
+    static void flip(int arr[], int i) {
+        int start = 0;
+        while (start < i) {
+            int temp = arr[start];
+            arr[start] = arr[i];
+            arr[i] = temp;
+            start++;
+            i--;
+        }
+    }
+
+    // Function to find the index of the maximum element
+    static int findMax(int arr[], int n) {
+        int maxIndex = 0;
+        for (int i = 1; i < n; i++)
+            if (arr[i] > arr[maxIndex])
+                maxIndex = i;
+        return maxIndex;
+    }
+
+    // Pancake Sort
+    static void pancakeSort(int arr[]) {
+        for (int currSize = arr.length; currSize > 1; currSize--) {
+            int maxIndex = findMax(arr, currSize);
+            if (maxIndex != currSize - 1) {
+                flip(arr, maxIndex);
+                flip(arr, currSize - 1);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int arr[] = {3, 6, 2, 8, 4, 7};
+        pancakeSort(arr);
+        System.out.println("Sorted array: " + Arrays.toString(arr));
+    }
+}`,
+                
+                            "python": `def flip(arr, i):
+    arr[:i + 1] = arr[:i + 1][::-1]
+
+def find_max(arr, n):
+    return arr.index(max(arr[:n]))
+
+def pancake_sort(arr):
+    n = len(arr)
+    for curr_size in range(n, 1, -1):
+        max_index = find_max(arr, curr_size)
+        if max_index != curr_size - 1:
+            flip(arr, max_index)
+            flip(arr, curr_size - 1)
+
+# Driver code
+arr = [3, 6, 2, 8, 4, 7]
+pancake_sort(arr)
+print("Sorted array:", arr)
+`,   
+                            "javascript":`function flip(arr, i) {
+    let start = 0;
+    while (start < i) {
+        [arr[start], arr[i]] = [arr[i], arr[start]];
+        start++;
+        i--;
+    }
+}
+
+function findMax(arr, n) {
+    let maxIndex = 0;
+    for (let i = 1; i < n; i++)
+        if (arr[i] > arr[maxIndex]) maxIndex = i;
+    return maxIndex;
+}
+
+function pancakeSort(arr) {
+    for (let currSize = arr.length; currSize > 1; currSize--) {
+        let maxIndex = findMax(arr, currSize);
+        if (maxIndex !== currSize - 1) {
+            flip(arr, maxIndex);
+            flip(arr, currSize - 1);
+        }
+    }
+}
+
+// Driver code
+let arr = [3, 6, 2, 8, 4, 7];
+pancakeSort(arr);
+console.log("Sorted array:", arr);
+`
+};           
+                        function updateCode() {
+                            var selectedLang = languageDropdown.value;
+                            codeContent.textContent = codes[selectedLang] || "Code not available.";
+                            codeBlock.style.display = "block"; // Show the code block
+                        }
+                
+                        // Update code on language change
+                        languageDropdown.addEventListener("change", updateCode);
+                
+                        // Show default language code on page load
+                        updateCode();
+                    });
+                </script>
+                <div class="sorting-container">
+                    <img src="https://iq.opengenus.org/content/images/2020/07/pancake_Sort.png" alt="Pancake Sort Visualization">
+                </div>
+</body>
+</html>
+

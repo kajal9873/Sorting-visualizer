@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gnome Sort Visualization</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #111;
+            color: #ff9900;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin-top: 60px;
+            text-align: left;
+            margin-left: 1px;
+        }
+        canvas {
+            background: #222;
+            display: block;
+            margin: auto;
+        }
+        button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 20px;
+            background: #ff9900;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ffcc00;
+        }
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .buttons button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: orange;
+            color: black;
+            border-radius: 5px;
+        }
+        .code-container {
+            display: none;
+            background-color: #1e1e1e;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: left;
+            width: 60%;
+            margin: auto;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }       
+    </style>   
+</head>
+<body>
+    <h1>Gnome Sort Visualization</h1>
+    <canvas id="Gnome"></canvas>
+    <br>
+    <button onclick="startGnomeSort()">Visualize Gnome Sort</button>
+
+    <script>
+        const canvas = document.getElementById("Gnome");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth * 0.9;
+        canvas.height = 500;
+
+        let array = [];
+        const numBars = 50;
+        const barWidth = canvas.width / numBars;
+
+        function generateArray() {
+            array = [];
+            for (let i = 0; i < numBars; i++) {
+                array.push(Math.floor(Math.random() * canvas.height * 0.8) + 10);
+            }
+            drawArray();
+        }
+
+        function drawArray(highlightIndices = []) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < array.length; i++) {
+                ctx.fillStyle = highlightIndices.includes(i) ? "red" : "orange"; // Highlight selected elements
+                ctx.fillRect(i * barWidth, canvas.height - array[i], barWidth - 2, array[i]);
+            }
+        }
+
+        async function gnomeSort() {
+            let index = 0;
+            while (index < array.length) {
+                if (index === 0 || array[index] >= array[index - 1]) {
+                    index++;
+                } else {
+                    // Swap elements
+                    [array[index], array[index - 1]] = [array[index - 1], array[index]];
+                    drawArray([index, index - 1]); // Highlight swap
+                    await sleep(50);
+                    index--;
+                }
+            }
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function startGnomeSort() {
+            generateArray();
+            await sleep(1000); // Delay before sorting starts
+            await gnomeSort();
+        }
+
+        generateArray();
+    </script>
+</body>
+</html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gnome Sort - Sorting Algorithm Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </header>
+<div class="Gnome-sort-info">
+    <div class="content-container">
+        <div class="description">
+            <h2>DESCRIPTION</h2>
+            <p>
+                Gnome Sort is a **comparison-based sorting algorithm** that works by repeatedly swapping adjacent elements that are out of order, similar to how a gnome sorts flower pots by moving them one at a time until they are in order.
+            </p>
+            <p>
+                The algorithm starts at the beginning of the array and compares adjacent elements. If they are in order, it moves forward; otherwise, it swaps them and steps backward. This process continues until the entire array is sorted.
+            </p>
+            <p>
+                Gnome Sort has a **worst-case and average time complexity of O(n²)**, making it inefficient for large datasets. However, for nearly sorted data, it can perform close to **O(n)**, similar to Insertion Sort.
+            </p>
+            <p>
+                One advantage of Gnome Sort is its **simplicity and ease of implementation**, requiring no extra memory, making it an **in-place sorting algorithm**. It is also a **stable sort**, meaning equal elements retain their original order after sorting.
+            </p>
+            <p>
+                Despite its inefficiency on large datasets, Gnome Sort is useful for educational purposes and small datasets where simplicity is preferred over performance.
+            </p>
+        </div>                                       
+        <div class="complexity">
+            <h2>COMPLEXITY</h2>
+            <table>
+                <tr>
+                    <td><strong>Average Complexity</strong></td>
+                    <td>O(n²)</td>
+                </tr>
+                <tr>
+                    <td><strong>Best Case</strong></td>
+                    <td>O(n)</td>
+                </tr>
+                <tr>
+                    <td><strong>Worst Case</strong></td>
+                    <td>O(n²)</td>
+                </tr>
+                <tr>
+                    <td><strong>Space Complexity</strong></td>
+                    <td>O(1)</td>
+                </tr>
+            </table>
+        </div>                                            
+    </div>
+</div>        
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Insertion Sort Visualization</title>
+                <style>
+                    body {
+                        background-color: #333;
+                        color: white;
+                        font-family: Arial, sans-serif;
+                        text-align: center;
+                    }
+                    select {
+                        padding: 10px;
+                        font-size: 16px;
+                        background-color: orange;
+                        border: none;
+                        color: black;
+                    }
+                    pre {
+                        background-color: #333;
+                        padding: 15px;
+                        text-align: left;
+                        display: none; /* Initially hidden */
+                    }    
+                </style>
+            </head>
+            <body>           
+                <h2>Gnome SORT IMPLEMENTATION</h2>
+                <label for="language">Choose a language:</label>
+                <select id="language">
+                    <option value="c">C</option>
+                    <option value="c++">C++</option>
+                    <option value="java">java</option>
+                    <option value="python">Python</option>
+                    <option value="javascript">javascript</option>
+                </select>
+            
+                <pre id="code-block">
+                    <code id="code"></code>
+                </pre>
+            
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        var codeBlock = document.getElementById("code-block");
+                        var codeContent = document.getElementById("code");
+                        var languageDropdown = document.getElementById("language");
+                
+                        var codes = {
+                            "c":`#include <stdio.h>
+
+// Function to perform Gnome Sort
+void gnomeSort(int arr[], int n) {
+    int index = 0;
+    while (index < n) {
+        if (index == 0 || arr[index] >= arr[index - 1]) {
+            index++;
+        } else {
+            // Swap elements
+            int temp = arr[index];
+            arr[index] = arr[index - 1];
+            arr[index - 1] = temp;
+            index--;
+        }
+    }
+}
+
+// Function to print an array
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
+
+int main() {
+    int arr[] = {34, 2, 10, -9, 45, 1};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    gnomeSort(arr, n);
+    printf("Sorted array: ");
+    printArray(arr, n);
+
+    return 0;
+}`,          
+                            "c++":`#include <iostream>
+using namespace std;
+
+// Function to perform Gnome Sort
+void gnomeSort(int arr[], int n) {
+    int index = 0;
+    while (index < n) {
+        if (index == 0 || arr[index] >= arr[index - 1]) {
+            index++;
+        } else {
+            swap(arr[index], arr[index - 1]);
+            index--;
+        }
+    }
+}
+
+// Function to print an array
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+}
+
+int main() {
+    int arr[] = {34, 2, 10, -9, 45, 1};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    gnomeSort(arr, n);
+    cout << "Sorted array: ";
+    printArray(arr, n);
+
+    return 0;
+}`,           
+                            "java":`import java.util.Arrays;
+
+public class GnomeSort {
+    public static void gnomeSort(int[] arr) {
+        int index = 0;
+        while (index < arr.length) {
+            if (index == 0 || arr[index] >= arr[index - 1]) {
+                index++;
+            } else {
+                // Swap elements
+                int temp = arr[index];
+                arr[index] = arr[index - 1];
+                arr[index - 1] = temp;
+                index--;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {34, 2, 10, -9, 45, 1};
+
+        gnomeSort(arr);
+        System.out.println("Sorted array: " + Arrays.toString(arr));
+    }
+}`,
+                
+                            "python": `def gnome_sort(arr):
+    index = 0
+    while index < len(arr):
+        if index == 0 or arr[index] >= arr[index - 1]:
+            index += 1
+        else:
+            arr[index], arr[index - 1] = arr[index - 1], arr[index]
+            index -= 1
+    return arr
+
+# Example usage
+arr = [34, 2, 10, -9, 45, 1]
+sorted_arr = gnome_sort(arr)
+print("Sorted array:", sorted_arr)
+`,   
+                            "javascript":`function gnomeSort(arr) {
+    let index = 0;
+    while (index < arr.length) {
+        if (index === 0 || arr[index] >= arr[index - 1]) {
+            index++;
+        } else {
+            // Swap elements
+            [arr[index], arr[index - 1]] = [arr[index - 1], arr[index]];
+            index--;
+        }
+    }
+    return arr;
+}
+
+// Example usage
+let arr = [34, 2, 10, -9, 45, 1];
+console.log("Sorted array:", gnomeSort(arr));
+`
+};           
+                        function updateCode() {
+                            var selectedLang = languageDropdown.value;
+                            codeContent.textContent = codes[selectedLang] || "Code not available.";
+                            codeBlock.style.display = "block"; // Show the code block
+                        }
+                
+                        // Update code on language change
+                        languageDropdown.addEventListener("change", updateCode);
+                
+                        // Show default language code on page load
+                        updateCode();
+                    });
+                </script>
+                <div class="sorting-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c2/GnomeSort.png" alt="Gnome Sort Visualization">
+                </div>
+</body>
+</html>
+

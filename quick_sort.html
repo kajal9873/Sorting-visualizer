@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Sort Visualization</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #111;
+            color: #ff9900;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin-top: 60px;
+            text-align: left;
+            margin-left: 1px;
+        }
+        canvas {
+            background: #222;
+            display: block;
+            margin: auto;
+        }
+        button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 20px;
+            background: #ff9900;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ffcc00;
+        }
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .buttons button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: orange;
+            color: black;
+            border-radius: 5px;
+        }
+        .code-container {
+            display: none;
+            background-color: #1e1e1e;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: left;
+            width: 60%;
+            margin: auto;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }       
+    </style>
+</head>
+<body>
+    <h1>Quick Sort Visualization</h1>
+    <canvas id="quickSortCanvas"></canvas>
+    <br>
+    <button onclick="startQuickSort()">Visualize Quick Sort</button>
+    
+    <script>
+        const canvas = document.getElementById("quickSortCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth * 0.9;
+        canvas.height = 500;
+
+        let array = [];
+        const numBars = 50;
+        const barWidth = canvas.width / numBars;
+
+        function generateArray() {
+            array = [];
+            for (let i = 0; i < numBars; i++) {
+                array.push(Math.floor(Math.random() * canvas.height));
+            }
+            drawArray();
+        }
+
+        function drawArray(highlightIndices = []) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < array.length; i++) {
+                ctx.fillStyle = highlightIndices.includes(i) ? "red" : "orange";
+                ctx.fillRect(i * barWidth, canvas.height - array[i], barWidth - 2, array[i]);
+            }
+        }
+
+        async function quickSort(left = 0, right = array.length - 1) {
+            if (left < right) {
+                let pivotIndex = await partition(left, right);
+                await quickSort(left, pivotIndex - 1);
+                await quickSort(pivotIndex + 1, right);
+            }
+        }
+
+        async function partition(left, right) {
+            let pivotValue = array[right];
+            let partitionIndex = left;
+            
+            for (let i = left; i < right; i++) {
+                if (array[i] < pivotValue) {
+                    [array[i], array[partitionIndex]] = [array[partitionIndex], array[i]];
+                    partitionIndex++;
+                    drawArray([i, partitionIndex]);
+                    await sleep(100);
+                }
+            }
+            [array[partitionIndex], array[right]] = [array[right], array[partitionIndex]];
+            drawArray([partitionIndex, right]);
+            await sleep(100);
+            return partitionIndex;
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function startQuickSort() {
+            generateArray();
+            setTimeout(() => quickSort(), 1000);
+        }
+
+        generateArray();
+    </script>
+</body>
+</html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Sort - Sorting Algorithm Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </header>
+
+<div class="quick-sort-info">
+    <div class="info-container">
+        <div class="description">
+            <h2>DESCRIPTION</h2>
+            <p>
+                Quick Sort is a sorting algorithm based on splitting the data structure into smaller partitions and sorting them recursively until the data structure is sorted.
+            </p>
+            <p>
+                This division in partitions is done based on an element, called the pivot: all the elements bigger than the pivot get placed on the right side of the structure, while the smaller ones go to the left, creating two partitions. Next, this procedure gets applied recursively to the two partitions and so on.
+            </p>
+            <p>
+                This partition technique based on the pivot is called <a href="#">Divide and conquer</a>. It's a performant strategy also used by other sorting algorithms, such as <a href="#">Merge Sort</a>.
+            </p>
+            <p>
+                Quick Sort is a highly efficient, comparison-based sorting algorithm that follows the **divide and conquer** paradigm. It is widely used due to its speed and in-place sorting capability, making it suitable for large datasets.
+            </p>
+            <p>
+                The algorithm works by selecting a **pivot** element from the array and partitioning the remaining elements into two subarrays—one with elements smaller than the pivot and another with elements greater than the pivot. These subarrays are then recursively sorted, ultimately leading to a fully sorted array.
+            </p>
+        </div>    
+            <div class="complexity">
+                <h2>COMPLEXITY</h2>
+                <table>
+                    <tr>
+                        <td><strong>Average Complexity</strong></td>
+                        <td>O(n × log n)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Best Case</strong></td>
+                        <td>O(n × log n)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Worst Case</strong></td>
+                        <td>O(n²)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Space Complexity</strong></td>
+                        <td>O(n)</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>        
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Quick Sort Visualization</title>
+                <style>
+                    body {
+                        background-color: #333;
+                        color: white;
+                        font-family: Arial, sans-serif;
+                        text-align: center;
+                    }
+                    select {
+                        padding: 10px;
+                        font-size: 16px;
+                        background-color: orange;
+                        border: none;
+                        color: black;
+                    }
+                    pre {
+                        background-color: #333;
+                        padding: 15px;
+                        text-align: left;
+                        display: none; /* Initially hidden */
+                    }
+                </style>
+            </head>
+            <body>
+            
+                <h2>QUICK SORT IMPLEMENTATION</h2>
+                <label for="language">Choose a language:</label>
+                <select id="language">
+                    <option value="c">C</option>
+                    <option value="c++">C++</option>
+                    <option value="java">java</option>
+                    <option value="python">Python</option>
+                    <option value="javascript">javascript</option>
+                </select>
+            
+                <pre id="code-block">
+                    <code id="code"></code>
+                </pre>
+            
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        var codeBlock = document.getElementById("code-block");
+                        var codeContent = document.getElementById("code");
+                        var languageDropdown = document.getElementById("language");
+                
+                        var codes = {
+                            "c":`#include<stdio.h>
+                
+                void quickSort(int arr[], int low, int high) {
+                    if (low < high) {
+                        int pivot = partition(arr, low, high);
+                        quickSort(arr, low, pivot - 1);
+                        quickSort(arr, pivot + 1, high);
+                    }
+                }
+                
+                int partition(int arr[], int low, int high) {
+                    int pivot = arr[high];
+                    int i = (low - 1);
+                    for (int j = low; j < high; j++) {
+                        if (arr[j] < pivot) {
+                            i++;
+                            swap(&arr[i], &arr[j]);
+                        }
+                    }
+                    swap(&arr[i + 1], &arr[high]);
+                    return (i + 1);
+                }
+                
+                void swap(int* a, int* b) {
+                    int t = *a;
+                    *a = *b;
+                    *b = t;
+                }
+                
+                int main() {
+                    int arr[] = {10, 7, 8, 9, 1, 5};
+                    int n = sizeof(arr)/sizeof(arr[0]);
+                    quickSort(arr, 0, n-1);
+                    return 0;
+                }`,
+                
+                            "c++": `#include<iostream>
+                    using namespace std;
+                
+                void swap(int* a, int* b) {
+                    int t = *a;
+                    *a = *b;
+                    *b = t;
+                }
+                
+                int partition(int arr[], int low, int high) {
+                    int pivot = arr[high];
+                    int i = (low - 1);
+                    for (int j = low; j < high; j++) {
+                        if (arr[j] < pivot) {
+                            i++;
+                            swap(&arr[i], &arr[j]);
+                        }
+                    }
+                    swap(&arr[i + 1], &arr[high]);
+                    return (i + 1);
+                }
+                
+                void quickSort(int arr[], int low, int high) {
+                    if (low < high) {
+                        int pi = partition(arr, low, high);
+                        quickSort(arr, low, pi - 1);
+                        quickSort(arr, pi + 1, high);
+                    }
+                }
+                
+                int main() {
+                    int arr[] = {10, 7, 8, 9, 1, 5};
+                    int n = sizeof(arr) / sizeof(arr[0]);
+                    quickSort(arr, 0, n - 1);
+                    cout << "Sorted array: ";
+                    for (int i = 0; i < n; i++)
+                        cout << arr[i] << " ";
+                    return 0;
+                }`,
+                
+                            "java": `public class QuickSort {
+                    int partition(int arr[], int low, int high) {
+                        int pivot = arr[high];
+                        int i = (low - 1);
+                        for (int j = low; j < high; j++) {
+                            if (arr[j] < pivot) {
+                                i++;
+                                int temp = arr[i];
+                                arr[i] = arr[j];
+                                arr[j] = temp;
+                            }
+                        }
+                        int temp = arr[i + 1];
+                        arr[i + 1] = arr[high];
+                        arr[high] = temp;
+                        return i + 1;
+                    }
+                
+                    void sort(int arr[], int low, int high) {
+                        if (low < high) {
+                            int pi = partition(arr, low, high);
+                            sort(arr, low, pi - 1);
+                            sort(arr, pi + 1, high);
+                        }
+                    }
+                
+                    public static void main(String args[]) {
+                        int arr[] = {10, 7, 8, 9, 1, 5};
+                        QuickSort ob = new QuickSort();
+                        ob.sort(arr, 0, arr.length - 1);
+                    }
+                }`,
+                
+                            "python": `def quick_sort(arr):
+                    if len(arr) <= 1:
+                        return arr
+                    pivot = arr[len(arr) // 2]
+                    left = [x for x in arr if x < pivot]
+                    middle = [x for x in arr if x == pivot]
+                    right = [x for x in arr if x > pivot]
+                    return quick_sort(left) + middle + quick_sort(right)
+                
+                arr = [10, 7, 8, 9, 1, 5]
+                print(quick_sort(arr))`,
+                
+                            "javascript": `function quickSort(arr) {
+                    if (arr.length <= 1) return arr;
+                
+                    let pivot = arr[arr.length - 1];
+                    let left = arr.filter(el => el < pivot);
+                    let right = arr.filter(el => el > pivot);
+                    let middle = arr.filter(el => el === pivot);
+                
+                    return [...quickSort(left), ...middle, ...quickSort(right)];
+                }
+                
+                let arr = [10, 7, 8, 9, 1, 5];
+                console.log("Sorted Array:", quickSort(arr));`
+                        };
+                
+                        function updateCode() {
+                            var selectedLang = languageDropdown.value;
+                            codeContent.textContent = codes[selectedLang] || "Code not available.";
+                            codeBlock.style.display = "block"; // Show the code block
+                        }
+                
+                        // Update code on language change
+                        languageDropdown.addEventListener("change", updateCode);
+                
+                        // Show default language code on page load
+                        updateCode();
+                    });
+                </script>
+                <div class="sorting-container">
+                    <img src="https://stackabuse.s3.amazonaws.com/media/quicksort-in-javascript-1.jpg" alt="Quick Sort Visualization">
+                </div>
+</body>
+</html>
+
