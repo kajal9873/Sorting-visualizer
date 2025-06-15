@@ -32,5 +32,4 @@ Code
 
 Visualization
 
-🌐 Live Website: Sorting Visualizer
-📁 GitHub Repository: sorting-visualizer
+🌐 Live Website: https://kajal9873.github.io/sorting-visualizer/
