@@ -17,4 +17,4 @@ Bubble Sort,
 📊 Comparison chart to evaluate time complexity, space complexity, and stability of all algorithms
 🧠 Complete learning resources for every algorithm: Theory, Code, Visualization
 
-🌐 Live Website: https://kajal9873.github.io/sorting-visualizer/
+🌐 Live Website: https://kajal9873.github.io/Sorting-visualizer/
